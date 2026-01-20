@@ -23,34 +23,33 @@
       margin: 0;
     }
     
-    /* App Layout - Sidebar + Main Content */
+    /* App Layout - Sidebar + Main Content (matching app/weekly/page.tsx) */
     .app-layout {
       display: flex;
       min-height: 100vh;
-      background: #FAFAFA;
+      background: #FAFAFA; /* snow */
     }
     
-    /* Sidebar */
+    /* Sidebar - Fixed Width (matching app: w-[348px]) */
     .sidebar {
       width: 348px;
       min-width: 348px;
-      background: #FAFAFA;
-      border-right: 1px solid #E8E6E4;
+      background: #FAFAFA; /* snow */
+      border-right: 1px solid #E8E6E4; /* cream */
       flex-shrink: 0;
       display: flex;
       flex-direction: column;
-      position: relative;
     }
     
     .sidebar-header {
-      padding: 24px;
-      border-bottom: 1px solid #E8E6E4;
+      padding: 24px; /* p-6 */
+      border-bottom: 1px solid #E8E6E4; /* border-cream */
     }
     
     .sidebar-content {
       flex: 1;
       overflow-y: auto;
-      padding: 24px;
+      padding: 24px; /* p-6 */
     }
     
     .sidebar-section {
@@ -58,69 +57,72 @@
     }
     
     .sidebar-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #20212F;
+      font-size: 1.25rem; /* text-xl */
+      font-weight: 700; /* font-bold */
+      color: #20212F; /* text-black-howl */
       margin-bottom: 8px;
     }
     
     .sidebar-subtitle {
       font-size: 1rem;
-      font-weight: 600;
-      color: #20212F;
+      font-weight: 600; /* font-semibold */
+      color: #20212F; /* text-black-howl */
       margin-bottom: 4px;
     }
     
     .sidebar-date {
-      font-size: 0.875rem;
-      color: #8A898F;
+      font-size: 0.875rem; /* text-sm */
+      color: #8A898F; /* text-box-office */
     }
     
-    /* Main Content */
+    /* Main Content - Flex 1 (matching app: flex-1 min-w-0) */
     .main-content {
       flex: 1;
       min-width: 0;
       overflow-x: hidden;
+      background: #FAFAFA; /* snow */
     }
     
     .content-wrapper {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 24px 40px;
+      padding: 32px 40px; /* py-8 px-8 lg:px-8 */
     }
     
     .page-header {
-      margin-bottom: 32px;
+      margin-bottom: 40px; /* mb-10 lg:mb-12 */
     }
     
     .header-content {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
+      gap: 12px; /* gap-3 */
+      margin-bottom: 24px; /* mb-6 */
     }
     
     .badge {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #FE5263;
-      background: #F7F6F5;
-      padding: 4px 12px;
-      border-radius: 9999px;
+      font-size: 0.875rem; /* text-sm */
+      font-weight: 700; /* font-bold */
+      color: #FE5263; /* text-coral */
+      background: #F7F6F5; /* bg-wedding-dress */
+      padding: 4px 12px; /* px-3 py-1 */
+      border-radius: 9999px; /* rounded-full */
     }
     
     .page-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #20212F;
-      margin: 0 0 8px 0;
+      font-size: 2.5rem; /* text-4xl lg:text-5xl */
+      font-weight: 700; /* font-bold */
+      color: #20212F; /* text-black-howl */
+      margin: 0 0 12px 0; /* mb-3 */
       line-height: 1.2;
+      letter-spacing: -0.02em; /* tracking-tight */
     }
     
     .page-subtitle {
-      font-size: 1rem;
-      color: #8A898F;
+      font-size: 1.125rem; /* text-lg */
+      color: #8A898F; /* text-box-office */
       margin: 0;
+      max-width: 42rem; /* max-w-2xl */
     }
     
     .content {
@@ -186,18 +188,22 @@
     }
     
     .chart-card {
-      background: white;
-      border: 1px solid #E8E6E4;
-      border-radius: 12px;
-      padding: 24px;
+      background: white; /* bg-white */
+      border: 1px solid #E8E6E4; /* border-cream */
+      border-radius: 12px; /* rounded-xl */
+      padding: 24px; /* p-6 lg:p-8 */
       margin-bottom: 24px;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
     }
     
     .chart-card h3 {
-      font-size: 1.25rem;
-      margin-bottom: 20px;
-      color: #20212F;
-      font-weight: 600;
+      font-size: 1.25rem; /* text-xl */
+      margin-bottom: 24px; /* mb-6 */
+      color: #20212F; /* text-black-howl */
+      font-weight: 700; /* font-bold */
+      display: flex;
+      align-items: center;
+      gap: 12px; /* gap-3 */
     }
     
     /* Tab Navigation (like TrendOverview) */
@@ -377,11 +383,18 @@
         width: 100%;
         min-width: 100%;
         border-right: none;
-        border-bottom: 1px solid #E8E6E4;
+        border-bottom: 1px solid #E8E6E4; /* border-cream */
       }
       
       .content-wrapper {
-        padding: 24px;
+        padding: 32px 24px; /* py-8 px-6 */
+      }
+    }
+    
+    @media (min-width: 1025px) {
+      /* Ensure sidebar is always visible on large screens */
+      .sidebar {
+        display: flex !important;
       }
     }
     
@@ -406,7 +419,7 @@
 </head>
 <body>
   <div class="app-layout">
-    <!-- Sidebar -->
+    <!-- Sidebar - Fixed Width (348px) -->
     <aside class="sidebar">
       <div class="sidebar-header">
         <div style="width: 108.8px; height: 32px; display: inline-block; flex-shrink: 0;"><svg width="111" height="32" viewBox="0 0 111 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -438,13 +451,14 @@
       </div>
     </aside>
 
-    <!-- Main Content -->
+    <!-- Main Content - Flex 1 -->
     <main class="main-content">
       <div class="content-wrapper">
+        <!-- Page Header -->
         <div class="page-header">
           <div class="header-content">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <div style="width: 108.8px; height: 32px; display: inline-block; flex-shrink: 0;"><svg width="111" height="32" viewBox="0 0 111 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 108.8px; height: 32px; display: inline-block; flex-shrink: 0;"><svg width="111" height="32" viewBox="0 0 111 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M36.5603 25.8781V6.77828H45.6027C49.9101 6.77828 52.902 9.38948 52.902 13.1493C52.902 16.9159 49.8968 19.5404 45.6027 19.5404H40.781V25.8781H36.5603ZM40.781 16.0544H45.3756C47.4258 16.0544 48.6813 14.9592 48.6813 13.1493C48.6813 11.3529 47.4392 10.2643 45.409 10.2643H40.781V16.0544Z" fill="#073742"/>
 <path d="M59.002 6.11046V25.8781H55.0017V6.11046H59.002Z" fill="#073742"/>
 <path d="M71.2464 18.8793V11.1525H75.2466V25.8781H71.2464V21.4504C70.6253 24.5692 68.8021 26.2788 66.0707 26.2788C62.8985 26.2788 61.1822 23.9614 61.1822 19.7074V11.1525H65.1825V19.0396C65.1825 21.5506 66.1241 22.7928 68.0475 22.7928C70.0843 22.7928 71.2464 21.4037 71.2464 18.8793Z" fill="#073742"/>
@@ -463,13 +477,14 @@
 <path d="M11.9568 15.5109C11.9229 15.1012 11.9736 14.7235 12.1804 14.3937C12.6375 13.6653 13.5083 13.2799 14.3601 13.3234C15.1141 13.362 15.7357 13.9269 16.2146 14.6193C16.6248 15.2125 16.7863 15.9369 16.6433 16.6486C16.5023 17.3501 16.0729 17.931 15.4763 18.302C14.7854 18.7315 14.0157 19.0207 13.3591 18.717C13.0336 18.5664 12.8059 18.2932 12.6306 17.9465C12.4542 17.5975 12.3378 17.1885 12.2263 16.7814C12.1091 16.3535 11.991 15.9238 11.9568 15.5109Z" stroke="#FE5263" stroke-width="0.324873"/>
 <path d="M13.1453 15.856C13.129 15.648 13.1541 15.4653 13.2469 15.3091C13.4594 14.9516 13.8649 14.7623 14.2615 14.7837C14.5955 14.8018 14.8864 15.0689 15.1238 15.4312C15.3184 15.7282 15.3959 16.0917 15.3279 16.4487C15.2612 16.7991 15.0583 17.0881 14.7781 17.272C14.4333 17.4983 14.0856 17.6231 13.8026 17.4849C13.6628 17.4165 13.5593 17.2899 13.4754 17.1148C13.3909 16.9382 13.3341 16.7297 13.2781 16.5142C13.2192 16.2869 13.1618 16.0664 13.1453 15.856Z" stroke="#FE5263" stroke-width="0.324873"/>
 </svg></div>
-        </div>
+            </div>
             <span class="badge">REPORTING</span>
           </div>
-          <h1 class="page-title">KW 2/2026</h1>
-          <p class="page-subtitle">5. Januar 2026</p>
+          <h1 class="page-title">Wöchentlicher Bericht</h1>
+          <p class="page-subtitle">KW 2/2026 - 5. Januar 2026</p>
         </div>
         
+        <!-- Content -->
         <div class="content">
           <div class="briefing-content">
             <h3 class="section-title">Harte Fakten - Wachstum zur Vorwoche</h3><br><ul><li>Anzahl neuer Kommentare: 150 neue Kommentare (+3.6% zur Vorwoche)</li><br><li>Anzahl neuer registrierter Nutzer: 2 neue Nutzer (+0.3% zur Vorwoche)</li><br><li>Damit sind es insgesamt 4350 veröffentlichte Kommentare und 742 registrierte Nutzer.</li><br><li>Weitere essentielle KPIs: 8303 Besuche (-3662, -30.6% zur Vorwoche), 5875 eindeutige Besucher (-2611, -30.8% zur Vorwoche), 15226 Aktionen (-4759, -23.8% zur Vorwoche).</li></p><p><h3 class="section-title">Executive Summary</h3><br><li>Deutlicher Rückgang bei den Besuchszahlen und eindeutigen Besuchern im Vergleich zur Vorwoche.</li><br><li>Stabile Entwicklung bei Kommentaren und registrierten Nutzern.</li><br><li>Die Plattform verzeichnete eine signifikante Anzahl an Aktionen pro Besuch.</li><br><li>Die Absprungsrate hat sich auf 48% verbessert.</li></p><p><h3 class="section-title">Traffic und Engagement Interpretation</h3><br>Diese Woche verzeichnete die Plattform 8303 Besuche von 5875 eindeutigen Besuchern, die insgesamt 15226 Aktionen durchführten. Im Durchschnitt wurden 1,8 Aktionen pro Besuch durchgeführt, die durchschnittliche Besuchszeit betrug 41 Sekunden, und die Absprungsrate lag bei 48%. </p><p>Im Vergleich zur Vorwoche sind die Besuche um 3662 (-30.6%) und die eindeutigen Besucher um 2611 (-30.8%) gesunken. Die Anzahl der Aktionen verringerte sich um 4759 (-23.8%). Dies deutet auf ein verringertes Interesse oder Engagement der Nutzer hin, was möglicherweise durch externe Faktoren oder saisonale Einflüsse bedingt ist.</p><p><h3 class="section-title">Acquisition/Referrer - Entwicklung der Traffic-Quellen</h3><br>Die Traffic-Quellen verteilen sich wie folgt: <br><li>Direktzugriffe: 343 Besucher (keine Vergleichsdaten zur Vorwoche)</li><br><li>Suchmaschinen: 341 Besucher (keine Vergleichsdaten zur Vorwoche)</li><br><li>Websites/Referrals: 7619 Besucher (keine Vergleichsdaten zur Vorwoche)</li><br><li>Social Media: 0 Besucher (keine Vergleichsdaten zur Vorwoche)</li></ul></p><p>In dieser Woche sind die Zugriffe ausschließlich von Websites/Referrals und Suchmaschinen generiert worden. Der Direct-Traffic ist neu, was auf eine erste Erfassung dieser Daten hindeutet. </p><p><h3 class="section-title">Top Einstiegsseiten</h3><br>1. /resource/inhalt.glatteis-in-den-ersten-landkreisen-bayerns-faellt-die-schule-aus.58cf2f8a-f77c-4281-94ad-e68692a4d589.html - 418 Besuche<br>2. /resource/inhalt.usa-schnappen-sich-maduro-rueckkehr-ins-19-jahrhundert.aeb5e6ed-6ca6-41e4-a5b0-94b2e3142b94.html - 206 Besuche<br>3. /resource/inhalt.pro-contra-zu-viel-laerm-um-ein-paar-zentimeter-schnee.5a30a015-cdd1-4da9-92c8-2f80d1ed15c1.html - 239 Besuche<br>4. /resource/inhalt.versorgung-in-hochfranken-zwei-apotheker-sprechen-klartext.f2120ded-5fad-49ff-bd46-584ef6b18d3b.html - 271 Besuche<br>5. /resource/inhalt.prozessauftakt-in-meiningen-verhandelt-wird-ohne-die-oeffentlichkeit.48db38b1-56f1-481f-abe4-b9a931b64201.html - 258 Besuche</p><p>Die meistbesuchten Einstiegsseiten zeigen ein starkes Interesse an lokalen Themen und aktuellen Ereignissen, was die Relevanz dieser Inhalte für die Zielgruppe unterstreicht.</p><p><h3 class="section-title">Entwicklung und Trends</h3><br>Die signifikanten Rückgänge bei den Besuchszahlen und eindeutigen Besuchern könnten auf saisonale Schwankungen oder eine veränderte Nutzerinteraktion hinweisen. Die Stabilität bei den Kommentaren und registrierten Nutzern könnte darauf hindeuten, dass die bestehende Nutzerbasis weiterhin aktiv bleibt, während potenzielle neue Nutzer nicht in gleichem Maße angezogen werden.</p><p><h3 class="section-title">Bemerkenswerte Änderungen / Anomalien</h3><br>Die Absprungsrate hat sich im Vergleich zur Vorwoche verbessert. Dies könnte auf eine gezielte Verbesserung der Benutzererfahrung oder Inhalte hindeuten, die die Nutzer länger auf der Seite halten.</p><p><h3 class="section-title">Handlungsempfehlungen</h3><br>Es sollte untersucht werden, welche externen Faktoren zu dem signifikanten Rückgang der Besucherzahlen beigetragen haben. Zudem könnte eine Analyse des Inhaltsangebots und der Marketingstrategien sinnvoll sein, um die Attraktivität für neue Nutzer zu erhöhen. Die Performance der Top-Einstiegsseiten sollte weiterhin beobachtet werden, um gezielte Inhalte anzubieten, die dem Nutzerinteresse entsprechen.
