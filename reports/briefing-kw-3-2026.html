@@ -20,18 +20,77 @@
       color: #20212F;
       background: #FAFAFA;
       padding: 0;
+      margin: 0;
     }
     
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      background: white;
-    }
-    
-    .header {
+    /* App Layout - Sidebar + Main Content */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
       background: #FAFAFA;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 348px;
+      min-width: 348px;
+      background: #FAFAFA;
+      border-right: 1px solid #E8E6E4;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    
+    .sidebar-header {
+      padding: 24px;
       border-bottom: 1px solid #E8E6E4;
-      padding: 32px 40px;
+    }
+    
+    .sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+    }
+    
+    .sidebar-section {
+      margin-bottom: 24px;
+    }
+    
+    .sidebar-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #20212F;
+      margin-bottom: 8px;
+    }
+    
+    .sidebar-subtitle {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #20212F;
+      margin-bottom: 4px;
+    }
+    
+    .sidebar-date {
+      font-size: 0.875rem;
+      color: #8A898F;
+    }
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      overflow-x: hidden;
+    }
+    
+    .content-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 40px;
+    }
+    
+    .page-header {
+      margin-bottom: 32px;
     }
     
     .header-content {
@@ -41,36 +100,31 @@
       margin-bottom: 16px;
     }
     
-    .header h1 {
-      font-size: 2rem;
-      font-weight: 600;
-      color: #20212F;
-      margin: 0;
-    }
-    
-    .header .badge {
+    .badge {
       font-size: 0.75rem;
       font-weight: 700;
       color: #FE5263;
-      background: #F4F2F0;
+      background: #F7F6F5;
       padding: 4px 12px;
       border-radius: 9999px;
     }
     
-    .header .subtitle {
-      font-size: 1.25rem;
-      color: #8A898F;
-      margin-top: 8px;
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #20212F;
+      margin: 0 0 8px 0;
+      line-height: 1.2;
     }
     
-    .header .date {
-      font-size: 0.875rem;
+    .page-subtitle {
+      font-size: 1rem;
       color: #8A898F;
-      margin-top: 4px;
+      margin: 0;
     }
     
     .content {
-      padding: 40px;
+      padding: 0;
     }
     
     .main-title {
@@ -314,17 +368,30 @@
       }
     }
     
+    @media (max-width: 1024px) {
+      .app-layout {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        min-width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #E8E6E4;
+      }
+      
+      .content-wrapper {
+        padding: 24px;
+      }
+    }
+    
     @media (max-width: 768px) {
-      .content {
-        padding: 20px;
+      .content-wrapper {
+        padding: 16px;
       }
       
-      .header {
-        padding: 24px 20px;
-      }
-      
-      .header h1 {
-        font-size: 1.5rem;
+      .page-title {
+        font-size: 1.875rem;
       }
       
       .kpi-grid {
@@ -338,9 +405,44 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="header-content">
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div style="width: 108.8px; height: 32px; display: inline-block; flex-shrink: 0;"><svg width="111" height="32" viewBox="0 0 111 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.5603 25.8781V6.77828H45.6027C49.9101 6.77828 52.902 9.38948 52.902 13.1493C52.902 16.9159 49.8968 19.5404 45.6027 19.5404H40.781V25.8781H36.5603ZM40.781 16.0544H45.3756C47.4258 16.0544 48.6813 14.9592 48.6813 13.1493C48.6813 11.3529 47.4392 10.2643 45.409 10.2643H40.781V16.0544Z" fill="#073742"/>
+<path d="M59.002 6.11046V25.8781H55.0017V6.11046H59.002Z" fill="#073742"/>
+<path d="M71.2464 18.8793V11.1525H75.2466V25.8781H71.2464V21.4504C70.6253 24.5692 68.8021 26.2788 66.0707 26.2788C62.8985 26.2788 61.1822 23.9614 61.1822 19.7074V11.1525H65.1825V19.0396C65.1825 21.5506 66.1241 22.7928 68.0475 22.7928C70.0843 22.7928 71.2464 21.4037 71.2464 18.8793Z" fill="#073742"/>
+<path d="M81.4879 19.1531V25.8781H77.4876V11.1525H81.4879V16.2681C82.0222 13.116 83.5314 11.1525 86.4098 11.1525H87.2913V14.9191H85.7419C82.4629 14.9191 81.4879 16.2547 81.4879 19.1531Z" fill="#073742"/>
+<path d="M88.8292 16.5486C88.8292 12.9757 91.5339 10.7518 95.9081 10.7518C100.403 10.7518 103.061 13.116 103.061 17.1429V25.8781H99.0603V22.1116C98.3991 24.6894 96.2888 26.2788 93.4105 26.2788C90.3986 26.2788 88.3951 24.5425 88.3951 21.9313C88.3951 19.1397 90.6724 17.4835 94.5124 17.4835H99.0603V17.1429C99.0603 15.1194 97.8649 13.904 95.8146 13.904C93.7511 13.904 92.8161 14.9124 92.8161 16.5486H88.8292ZM99.0603 19.9144H94.9264C93.2702 19.9144 92.3954 20.4821 92.3954 21.5573C92.3954 22.6725 93.3303 23.3003 94.9865 23.3003C97.3306 23.3003 99.0603 22.0448 99.0603 20.3485V19.9144Z" fill="#073742"/>
+<path d="M109.243 6.11046V25.8781H105.243V6.11046H109.243Z" fill="#073742"/>
+<path d="M2.44952 13.4033C2.27647 11.4279 2.52836 9.53481 3.64093 7.86032C6.02433 4.27325 10.537 2.40354 14.9202 2.61521C18.9353 2.80915 22.1423 5.63793 24.5218 8.88767C26.6287 11.7653 27.4605 15.2837 26.7239 18.7461C25.9957 22.169 23.777 25.0007 20.7083 26.8027C17.3022 28.8028 13.2518 30.3121 9.69952 28.7597C7.92435 27.9838 6.72106 26.5907 5.82355 24.914C4.92447 23.2344 4.33875 21.2825 3.79327 19.4013C3.22116 17.4283 2.62293 15.3823 2.44952 13.4033Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M0.220702 12.9395C0.0172232 10.605 0.312327 8.36359 1.62305 6.38086C4.42696 2.13951 9.73396 -0.0682832 14.8857 0.18164C19.6107 0.410977 23.3823 3.75586 26.1768 7.5918C28.6544 10.9928 29.6331 15.1527 28.7666 19.2461C27.9099 23.2931 25.2999 26.6393 21.6924 28.7686C17.6939 31.1285 12.9295 32.9162 8.74707 31.0791C6.65574 30.1605 5.23903 28.5111 4.18359 26.5293C3.12667 24.5446 2.43797 22.2393 1.79785 20.0205C1.12658 17.6937 0.424529 15.2775 0.220702 12.9395Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M3.63806 13.6507C3.48281 11.8665 3.70864 10.158 4.70544 8.64775C6.84265 5.41005 10.8898 3.72224 14.8217 3.91338C18.4199 4.08831 21.2964 6.64009 23.433 9.57744C25.3232 12.1762 26.0694 15.3542 25.4086 18.4808C24.7553 21.5711 22.7656 24.127 20.0131 25.7542C16.954 27.5625 13.3232 28.9234 10.141 27.5237C8.55079 26.8242 7.47166 25.5675 6.66638 24.053C5.85971 22.5359 5.33411 20.7726 4.84412 19.0716C4.33015 17.2873 3.79367 15.4384 3.63806 13.6507Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M4.8266 13.8981C4.68812 12.3053 4.88917 10.782 5.77679 9.43615C7.68203 6.54737 11.2917 5.03991 14.7993 5.21056C18.0057 5.36656 20.5712 7.64329 22.4789 10.2682C24.1648 12.5878 24.8299 15.4242 24.2407 18.2145C23.6582 20.972 21.8842 23.2531 19.4291 24.7057C16.6968 26.3222 13.4598 27.5346 10.6254 26.2867C9.20964 25.6634 8.24797 24.5438 7.52972 23.192C6.80999 21.8373 6.34157 20.262 5.90375 18.7408C5.4445 17.1452 4.96544 15.4944 4.8266 13.8981Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M6.01514 14.1454C5.89343 12.7441 6.07067 11.4061 6.84912 10.2245C8.52247 7.68499 11.6938 6.35858 14.7769 6.50873C17.5913 6.64582 19.846 8.64657 21.5249 10.9589C23.0063 12.9994 23.5903 15.4934 23.0728 17.9472C22.5611 20.3724 21.0023 22.3792 18.8442 23.6572C16.4386 25.0818 13.5962 26.1455 11.1099 25.0497C9.86857 24.5026 9.02523 23.5192 8.39404 22.33C7.76139 21.138 7.34799 19.7521 6.9624 18.4111C6.55787 17.0042 6.13721 15.5504 6.01514 14.1454Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M7.20367 14.3938C7.10068 13.1831 7.25035 12.0296 7.9068 11.012C9.31981 8.82162 11.9979 7.67739 14.6021 7.80689C16.9743 7.92488 18.8792 9.64733 20.3013 11.6477C21.5536 13.4093 22.0476 15.5631 21.6099 17.6819C21.1775 19.7754 19.86 21.5068 18.0367 22.6096C15.9983 23.8425 13.6009 24.7561 11.5074 23.8137C10.4623 23.3433 9.75013 22.4971 9.21637 21.47C8.68139 20.4404 8.33226 19.2422 8.00543 18.0813C7.66254 16.8633 7.30697 15.6076 7.20367 14.3938Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M8.39215 14.6412C8.3059 13.6217 8.43164 12.6537 8.97906 11.8004C10.1603 9.95908 12.4001 8.99606 14.5797 9.10506C16.5597 9.20409 18.1529 10.6504 19.3463 12.3385C20.3943 13.821 20.8081 15.6329 20.442 17.4156C20.0802 19.1766 18.9786 20.634 17.4527 21.5621C15.7411 22.6031 13.738 23.3666 11.9927 22.5767C11.122 22.1827 10.5275 21.4736 10.0806 20.609C9.63253 19.7419 9.33965 18.7325 9.065 17.7515C8.77681 16.7222 8.47869 15.6637 8.39215 14.6412Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M9.57971 14.9195C9.51131 14.1156 9.6124 13.3564 10.0436 12.688C10.9782 11.2395 12.752 10.4791 14.4811 10.565C16.0452 10.6428 17.3083 11.7795 18.2584 13.1158C19.0893 14.2843 19.4166 15.7118 19.1266 17.1158C18.8402 18.5022 17.9675 19.6506 16.7574 20.3824C15.3931 21.2075 13.8083 21.8044 12.4323 21.1851C11.7471 20.8766 11.2776 20.3215 10.9235 19.6402C10.5679 18.9561 10.335 18.1579 10.1158 17.3795C9.88581 16.5625 9.6484 15.7265 9.57971 14.9195Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M10.7682 15.1669C10.7166 14.5541 10.7936 13.9796 11.1159 13.4755C11.8189 12.3762 13.1547 11.7978 14.4587 11.8632C15.6303 11.922 16.5829 12.7815 17.3044 13.8055C17.9311 14.695 18.1773 15.7814 17.9587 16.8495C17.7429 17.9036 17.0852 18.7769 16.1725 19.3339C15.1348 19.9672 13.9452 20.4157 12.9177 19.9491C12.4066 19.717 12.0542 19.2984 11.7868 18.7792C11.5181 18.2576 11.3424 17.6481 11.1755 17.0497C11.0001 16.4213 10.8202 15.7827 10.7682 15.1669Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M11.9568 15.5109C11.9229 15.1012 11.9736 14.7235 12.1804 14.3937C12.6375 13.6653 13.5083 13.2799 14.3601 13.3234C15.1141 13.362 15.7357 13.9269 16.2146 14.6193C16.6248 15.2125 16.7863 15.9369 16.6433 16.6486C16.5023 17.3501 16.0729 17.931 15.4763 18.302C14.7854 18.7315 14.0157 19.0207 13.3591 18.717C13.0336 18.5664 12.8059 18.2932 12.6306 17.9465C12.4542 17.5975 12.3378 17.1885 12.2263 16.7814C12.1091 16.3535 11.991 15.9238 11.9568 15.5109Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M13.1453 15.856C13.129 15.648 13.1541 15.4653 13.2469 15.3091C13.4594 14.9516 13.8649 14.7623 14.2615 14.7837C14.5955 14.8018 14.8864 15.0689 15.1238 15.4312C15.3184 15.7282 15.3959 16.0917 15.3279 16.4487C15.2612 16.7991 15.0583 17.0881 14.7781 17.272C14.4333 17.4983 14.0856 17.6231 13.8026 17.4849C13.6628 17.4165 13.5593 17.2899 13.4754 17.1148C13.3909 16.9382 13.3341 16.7297 13.2781 16.5142C13.2192 16.2869 13.1618 16.0664 13.1453 15.856Z" stroke="#FE5263" stroke-width="0.324873"/>
+</svg></div>
+      </div>
+      <div class="sidebar-content">
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Plural Reporting</h3>
+          <p class="sidebar-subtitle">KW 3/2026</p>
+          <p class="sidebar-date">12. Januar 2026</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-wrapper">
+        <div class="page-header">
+          <div class="header-content">
         <div style="display: flex; align-items: center; gap: 12px;">
           <div style="width: 108.8px; height: 32px; display: inline-block; flex-shrink: 0;"><svg width="111" height="32" viewBox="0 0 111 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M36.5603 25.8781V6.77828H45.6027C49.9101 6.77828 52.902 9.38948 52.902 13.1493C52.902 16.9159 49.8968 19.5404 45.6027 19.5404H40.781V25.8781H36.5603ZM40.781 16.0544H45.3756C47.4258 16.0544 48.6813 14.9592 48.6813 13.1493C48.6813 11.3529 47.4392 10.2643 45.409 10.2643H40.781V16.0544Z" fill="#073742"/>
@@ -362,18 +464,18 @@
 <path d="M13.1453 15.856C13.129 15.648 13.1541 15.4653 13.2469 15.3091C13.4594 14.9516 13.8649 14.7623 14.2615 14.7837C14.5955 14.8018 14.8864 15.0689 15.1238 15.4312C15.3184 15.7282 15.3959 16.0917 15.3279 16.4487C15.2612 16.7991 15.0583 17.0881 14.7781 17.272C14.4333 17.4983 14.0856 17.6231 13.8026 17.4849C13.6628 17.4165 13.5593 17.2899 13.4754 17.1148C13.3909 16.9382 13.3341 16.7297 13.2781 16.5142C13.2192 16.2869 13.1618 16.0664 13.1453 15.856Z" stroke="#FE5263" stroke-width="0.324873"/>
 </svg></div>
         </div>
-        <span class="badge">REPORTING</span>
-      </div>
-      <div class="subtitle">KW 3/2026</div>
-      <div class="date">12. Januar 2026</div>
-    </div>
-    
-    <div class="content">
-      <div class="briefing-content">
-        📊 Weekly Performance Briefing – KW 3/2026</p><p>Traffic, Engagement & Community-Entwicklung</p><p>⸻</p><p><strong>1. Executive Summary</strong><br>   - Die Plattform verzeichnet einen signifikanten Rückgang der Besuche um 1.258 (-15,2%) im Vergleich zur Vorwoche, was auf potenzielle Engagement-Probleme hinweist.<br>   - Die Anzahl eindeutiger Besucher sank um 924 (-15,7%), was auf eine verminderte Reichweite und möglicherweise unzureichende Content-Relevanz hindeutet.<br>   - Die Gesamtzahl der Aktionen fiel um 2.398 (-15,7%), was die Notwendigkeit einer kritischen Analyse der Nutzerinteraktionen unterstreicht.<br>   - Positiv zu vermerken ist der Anstieg neuer Kommentare um 263 (+6,0%), was auf eine wachsende Community-Interaktion hinweist, auch wenn die allgemeine Aktivität sinkt.<br>   - Die durchschnittliche Verweildauer der Nutzer auf der Plattform blieb konstant bei 41 Sekunden, was auf eine stabile Content-Attraktivität hinweist, jedoch eine höhere Nutzerbindung erfordert.<br>   - Diese Entwicklungen erfordern eine strategische Neuausrichtung auf Content und Traffic-Akquise, um das Engagement zu steigern.</p><p>⸻</p><p><strong>2. Harte Fakten – Einordnung der Woche</strong></p><p>Community & Aktivität<br>   - Neue Kommentare: 263 (+263 | +6.0% zur Vorwoche)<br>   - Aktive Nutzer: 11 (+11 | +1.5% zur Vorwoche)<br>   - Gesamtstand: 4.613 veröffentlichte Kommentare, 753 aktive Nutzer, 1.863 Gesamtzahl Nutzer</p><p>Traffic & Nutzung<br>   - Besuche: 7.045 (-1.258 | -15.2%)<br>   - Eindeutige Besucher: 4.951 (-924 | -15.7%)<br>   - Aktionen: 12.828 (-2.398 | -15.7%)</p><p>Die Rückgänge im Traffic und in den Nutzerinteraktionen stehen im Kontrast zu der positiven Entwicklung der Kommentarfunktion, was auf ein potenzielles Missverhältnis in der Content-Distribution hinweist.</p><p>⸻</p><p><strong>3. Traffic & Engagement – analytische Interpretation</strong></p><p>Die Plattform wurde in dieser Woche von 4.951 Nutzern besucht, die 7.045 Besuche und 12.828 Aktionen ausgelöst haben. Die durchschnittliche Verweildauer betrug 41 Sekunden, und die Absprungrate lag bei 51%.</p><p>Die Engagement-Kennzahlen zeigen, dass die Aktionen pro Besuch konstant bei 1,8 liegen, was auf eine gleichbleibende Interaktionshäufigkeit hinweist. Dennoch führt der signifikante Rückgang in der Gesamtanzahl der Aktionen zu Bedenken hinsichtlich der Nutzerbindung. </p><p>Im Kontext des Kommentarwachstums lässt sich feststellen, dass die Nutzer trotz weniger Besuche aktiver in der Community agieren. Dies könnte darauf hindeuten, dass die Inhalte spezifisch für die engagierten Nutzer ansprechender waren, während breitere Besucherströme fehlen.</p><p>⸻</p><p><strong>4. Acquisition & Referrer – strukturelle Abhängigkeiten</strong></p><p>Die Besucher verteilen sich wie folgt:<br>   - Direkte Zugriffe: 311<br>   - Suchmaschinen: 292<br>   - Websites: 6.442<br>   - Soziale Medien: 0</p><p>Der überwiegende Teil des Traffics stammt aus verweisenden Websites, was auf eine starke Abhängigkeit von externen Quellen hinweist. Diese strukturelle Abhängigkeit kann die Volatilität des Traffics erhöhen, insbesondere wenn sich die Quellen ändern oder weniger Besucher generiert werden.</p><p>Hier entsteht ein klarer Prüfauftrag: Welche spezifischen Referrer sind zurückgegangen und inwiefern beeinflusst das unsere Traffic-Strategie?</p><p>⸻</p><p><strong>5. Content- & Einstiegsperspektive</strong></p><p>Die Top 5 Einstiegsseiten mit Besuchszahlen sind:<br>1. https://plural.place/resource/inhalt.schliessung-in-ketschendorf-wie-es-mit-dem-edekamarkt-weiter-geht.d99224a0-d345-4394-a36b-6cd07d10fe19.html - 257 Besuche<br>2. https://plural.place/resource/inhalt.lesermeinung-zu-pro-contra-nicht-die-amtlichen-warnungen-sind-das-problem.1418a2ad-7431-433d-8309-a580e69cfdfd.html - 236 Besuche<br>3. https://plural.place/resource/inhalt.lauterer-hoehe-in-coburg-wer-mitten-auf-dem-parkplatz-ganz-neu-baut.594145f8-7a89-4dee-bf72-b6a2b7cbf67d.html - 233 Besuche<br>4. https://plural.place/resource/inhalt.neuer-soeder-vorschlag-einfach-mal-die-buerokratie-aussetzen.8e693119-fe31-4c26-b5c6-95badf93a3d6.html - 163 Besuche<br>5. https://plural.place/resource/inhalt.niedriger-wasserpegel-heuer-wieder-mehr-wasser-im-untreusee.898913f1-a146-4ce3-8c2c-757598472f18.html - 208 Besuche</p><p>Die meistgenutzten Einstiegsseiten beschäftigen sich überwiegend mit lokalen Themen und gesellschaftlichen Debatten. Dies zeigt, dass das Interesse der Nutzer stark auf spezifische Inhalte fokussiert ist. Gerade im Kontext des Kommentarrückgangs ist entscheidend, ob die Reichweite dieser Woche stärker auf informationsgetriebene Inhalte entfiel.</p><p>⸻</p><p><strong>6. Entwicklung & Trends</strong></p><p>Im Wochenvergleich zeigt sich ein klarer Rückgang bei den Besuchszahlen und Nutzerinteraktionen, während die Kommentare leicht zugenommen haben. Dieses Auseinanderlaufen ist analytisch relevanter als der reine Rückgang selbst, da es darauf hinweist, dass es zwar eine aktive Community gibt, jedoch die breite Reichweite fehlt.</p><p>Sollte sich dieses Muster in den kommenden Wochen bestätigen, wäre dies ein Hinweis darauf, dass die Plattform möglicherweise mit einem Engagement-Problem konfrontiert ist, das gezielte Maßnahmen erfordert.</p><p>⸻</p><p><strong>7. Auffälligkeiten & Risiken</strong></p><p><ul><li>Der massive Rückgang der Besuche und Aktionen ist keine normale Traffic-Schwankung, sondern könnte auf ein strukturelles Problem in der Content-Verbreitung hinweisen.</li><br><li>Die hohe Abhängigkeit von Referrals erhöht die Volatilität und könnte uns anfällig für plötzliche Traffic-Verluste machen.</li><br><li>Die geringe Nutzung sozialer Medien zur Traffic-Generierung ist ein weiteres Risiko, da dies eine wichtige Quelle für Neukunden darstellen könnte.</li></ul></p><p>⸻</p><p><strong>8. Empfehlungen</strong></p><p>1. **Content-Strategie überarbeiten**<br>   Wie können wir gezielt Inhalte entwickeln, die sowohl bestehende Nutzer ansprechen als auch neue Besucher anziehen?</p><p>2. **Traffic-Quellen diversifizieren**<br>   Welche Maßnahmen können ergriffen werden, um die Abhängigkeit von verweisenden Websites zu verringern und soziale Medien effektiver zu nutzen?</p><p>3. **Engagement-Analyse durchführen**<br>   Welche spezifischen Inhalte haben in der vergangenen Woche die meisten Kommentare generiert, und wie können wir diese Erkenntnisse für zukünftige Inhalte nutzen?</p><p>4. **Monitoring der Referrer**<br>   Welche Referrer sind signifikant zurückgegangen, und welche Schritte können unternommen werden, um diesen Verlust zu kompensieren?
-      </div>
-      
-      <div class="charts-section"><h2 class="section-title">📊 Infografiken</h2>
+            <span class="badge">REPORTING</span>
+          </div>
+          <h1 class="page-title">KW 3/2026</h1>
+          <p class="page-subtitle">12. Januar 2026</p>
+        </div>
+        
+        <div class="content">
+          <div class="briefing-content">
+            📊 Weekly Performance Briefing – KW 3/2026</p><p>Traffic, Engagement & Community-Entwicklung</p><p>⸻</p><p><strong>1. Executive Summary</strong><br>   - Die Plattform verzeichnet einen signifikanten Rückgang der Besuche um 1.258 (-15,2%) im Vergleich zur Vorwoche, was auf potenzielle Engagement-Probleme hinweist.<br>   - Die Anzahl eindeutiger Besucher sank um 924 (-15,7%), was auf eine verminderte Reichweite und möglicherweise unzureichende Content-Relevanz hindeutet.<br>   - Die Gesamtzahl der Aktionen fiel um 2.398 (-15,7%), was die Notwendigkeit einer kritischen Analyse der Nutzerinteraktionen unterstreicht.<br>   - Positiv zu vermerken ist der Anstieg neuer Kommentare um 263 (+6,0%), was auf eine wachsende Community-Interaktion hinweist, auch wenn die allgemeine Aktivität sinkt.<br>   - Die durchschnittliche Verweildauer der Nutzer auf der Plattform blieb konstant bei 41 Sekunden, was auf eine stabile Content-Attraktivität hinweist, jedoch eine höhere Nutzerbindung erfordert.<br>   - Diese Entwicklungen erfordern eine strategische Neuausrichtung auf Content und Traffic-Akquise, um das Engagement zu steigern.</p><p>⸻</p><p><strong>2. Harte Fakten – Einordnung der Woche</strong></p><p>Community & Aktivität<br>   - Neue Kommentare: 263 (+263 | +6.0% zur Vorwoche)<br>   - Aktive Nutzer: 11 (+11 | +1.5% zur Vorwoche)<br>   - Gesamtstand: 4.613 veröffentlichte Kommentare, 753 aktive Nutzer, 1.863 Gesamtzahl Nutzer</p><p>Traffic & Nutzung<br>   - Besuche: 7.045 (-1.258 | -15.2%)<br>   - Eindeutige Besucher: 4.951 (-924 | -15.7%)<br>   - Aktionen: 12.828 (-2.398 | -15.7%)</p><p>Die Rückgänge im Traffic und in den Nutzerinteraktionen stehen im Kontrast zu der positiven Entwicklung der Kommentarfunktion, was auf ein potenzielles Missverhältnis in der Content-Distribution hinweist.</p><p>⸻</p><p><strong>3. Traffic & Engagement – analytische Interpretation</strong></p><p>Die Plattform wurde in dieser Woche von 4.951 Nutzern besucht, die 7.045 Besuche und 12.828 Aktionen ausgelöst haben. Die durchschnittliche Verweildauer betrug 41 Sekunden, und die Absprungrate lag bei 51%.</p><p>Die Engagement-Kennzahlen zeigen, dass die Aktionen pro Besuch konstant bei 1,8 liegen, was auf eine gleichbleibende Interaktionshäufigkeit hinweist. Dennoch führt der signifikante Rückgang in der Gesamtanzahl der Aktionen zu Bedenken hinsichtlich der Nutzerbindung. </p><p>Im Kontext des Kommentarwachstums lässt sich feststellen, dass die Nutzer trotz weniger Besuche aktiver in der Community agieren. Dies könnte darauf hindeuten, dass die Inhalte spezifisch für die engagierten Nutzer ansprechender waren, während breitere Besucherströme fehlen.</p><p>⸻</p><p><strong>4. Acquisition & Referrer – strukturelle Abhängigkeiten</strong></p><p>Die Besucher verteilen sich wie folgt:<br>   - Direkte Zugriffe: 311<br>   - Suchmaschinen: 292<br>   - Websites: 6.442<br>   - Soziale Medien: 0</p><p>Der überwiegende Teil des Traffics stammt aus verweisenden Websites, was auf eine starke Abhängigkeit von externen Quellen hinweist. Diese strukturelle Abhängigkeit kann die Volatilität des Traffics erhöhen, insbesondere wenn sich die Quellen ändern oder weniger Besucher generiert werden.</p><p>Hier entsteht ein klarer Prüfauftrag: Welche spezifischen Referrer sind zurückgegangen und inwiefern beeinflusst das unsere Traffic-Strategie?</p><p>⸻</p><p><strong>5. Content- & Einstiegsperspektive</strong></p><p>Die Top 5 Einstiegsseiten mit Besuchszahlen sind:<br>1. https://plural.place/resource/inhalt.schliessung-in-ketschendorf-wie-es-mit-dem-edekamarkt-weiter-geht.d99224a0-d345-4394-a36b-6cd07d10fe19.html - 257 Besuche<br>2. https://plural.place/resource/inhalt.lesermeinung-zu-pro-contra-nicht-die-amtlichen-warnungen-sind-das-problem.1418a2ad-7431-433d-8309-a580e69cfdfd.html - 236 Besuche<br>3. https://plural.place/resource/inhalt.lauterer-hoehe-in-coburg-wer-mitten-auf-dem-parkplatz-ganz-neu-baut.594145f8-7a89-4dee-bf72-b6a2b7cbf67d.html - 233 Besuche<br>4. https://plural.place/resource/inhalt.neuer-soeder-vorschlag-einfach-mal-die-buerokratie-aussetzen.8e693119-fe31-4c26-b5c6-95badf93a3d6.html - 163 Besuche<br>5. https://plural.place/resource/inhalt.niedriger-wasserpegel-heuer-wieder-mehr-wasser-im-untreusee.898913f1-a146-4ce3-8c2c-757598472f18.html - 208 Besuche</p><p>Die meistgenutzten Einstiegsseiten beschäftigen sich überwiegend mit lokalen Themen und gesellschaftlichen Debatten. Dies zeigt, dass das Interesse der Nutzer stark auf spezifische Inhalte fokussiert ist. Gerade im Kontext des Kommentarrückgangs ist entscheidend, ob die Reichweite dieser Woche stärker auf informationsgetriebene Inhalte entfiel.</p><p>⸻</p><p><strong>6. Entwicklung & Trends</strong></p><p>Im Wochenvergleich zeigt sich ein klarer Rückgang bei den Besuchszahlen und Nutzerinteraktionen, während die Kommentare leicht zugenommen haben. Dieses Auseinanderlaufen ist analytisch relevanter als der reine Rückgang selbst, da es darauf hinweist, dass es zwar eine aktive Community gibt, jedoch die breite Reichweite fehlt.</p><p>Sollte sich dieses Muster in den kommenden Wochen bestätigen, wäre dies ein Hinweis darauf, dass die Plattform möglicherweise mit einem Engagement-Problem konfrontiert ist, das gezielte Maßnahmen erfordert.</p><p>⸻</p><p><strong>7. Auffälligkeiten & Risiken</strong></p><p><ul><li>Der massive Rückgang der Besuche und Aktionen ist keine normale Traffic-Schwankung, sondern könnte auf ein strukturelles Problem in der Content-Verbreitung hinweisen.</li><br><li>Die hohe Abhängigkeit von Referrals erhöht die Volatilität und könnte uns anfällig für plötzliche Traffic-Verluste machen.</li><br><li>Die geringe Nutzung sozialer Medien zur Traffic-Generierung ist ein weiteres Risiko, da dies eine wichtige Quelle für Neukunden darstellen könnte.</li></ul></p><p>⸻</p><p><strong>8. Empfehlungen</strong></p><p>1. **Content-Strategie überarbeiten**<br>   Wie können wir gezielt Inhalte entwickeln, die sowohl bestehende Nutzer ansprechen als auch neue Besucher anziehen?</p><p>2. **Traffic-Quellen diversifizieren**<br>   Welche Maßnahmen können ergriffen werden, um die Abhängigkeit von verweisenden Websites zu verringern und soziale Medien effektiver zu nutzen?</p><p>3. **Engagement-Analyse durchführen**<br>   Welche spezifischen Inhalte haben in der vergangenen Woche die meisten Kommentare generiert, und wie können wir diese Erkenntnisse für zukünftige Inhalte nutzen?</p><p>4. **Monitoring der Referrer**<br>   Welche Referrer sind signifikant zurückgegangen, und welche Schritte können unternommen werden, um diesen Verlust zu kompensieren?
+          </div>
+          
+          <div class="charts-section"><h2 class="section-title">📊 Infografiken</h2>
       <div class="chart-card">
         <h3>Besucher & Aktivitäten im Vergleich</h3>
         <div class="bar-chart-container">
@@ -486,16 +588,16 @@
             <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
             
             <!-- Trend line -->
-            <path d="M 60,60 L 286.66666666666663,115.09068115336399 L 513.3333333333333,134.01587964897618 L 740,134.01587964897618" fill="none" stroke="#FE5263" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 60,60 L 400,115.09068115336399 L 740,134.01587964897618" fill="none" stroke="#FE5263" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             
             <!-- Data points -->
-            <circle cx="60" cy="60" r="5" fill="#FE5263"/><circle cx="286.66666666666663" cy="115.09068115336399" r="5" fill="#FE5263"/><circle cx="513.3333333333333" cy="134.01587964897618" r="5" fill="#FE5263"/><circle cx="740" cy="134.01587964897618" r="5" fill="#FE5263"/>
+            <circle cx="60" cy="60" r="5" fill="#FE5263"/><circle cx="400" cy="115.09068115336399" r="5" fill="#FE5263"/><circle cx="740" cy="134.01587964897618" r="5" fill="#FE5263"/>
             
             <!-- Value labels on points -->
-            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">12.0K</text><text x="286.66666666666663" y="105.09068115336399" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">8.3K</text><text x="513.3333333333333" y="124.01587964897618" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">7.0K</text><text x="740" y="124.01587964897618" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">7.0K</text>
+            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">12.0K</text><text x="400" y="105.09068115336399" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">8.3K</text><text x="740" y="124.01587964897618" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">7.0K</text>
             
             <!-- X-axis labels -->
-            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="286.66666666666663" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="513.3333333333333" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
             
             <!-- Y-axis labels -->
             <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">12.0K</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">9.0K</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">6.0K</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">3.0K</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0</text>
@@ -512,16 +614,16 @@
             <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
             
             <!-- Trend line -->
-            <path d="M 60,60 L 286.66666666666663,115.3829837379213 L 513.3333333333333,134.98232382748057 L 740,134.98232382748057" fill="none" stroke="#073742" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 60,60 L 400,115.3829837379213 L 740,134.98232382748057" fill="none" stroke="#073742" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             
             <!-- Data points -->
-            <circle cx="60" cy="60" r="5" fill="#073742"/><circle cx="286.66666666666663" cy="115.3829837379213" r="5" fill="#073742"/><circle cx="513.3333333333333" cy="134.98232382748057" r="5" fill="#073742"/><circle cx="740" cy="134.98232382748057" r="5" fill="#073742"/>
+            <circle cx="60" cy="60" r="5" fill="#073742"/><circle cx="400" cy="115.3829837379213" r="5" fill="#073742"/><circle cx="740" cy="134.98232382748057" r="5" fill="#073742"/>
             
             <!-- Value labels on points -->
-            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">8.5K</text><text x="286.66666666666663" y="105.3829837379213" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">5.9K</text><text x="513.3333333333333" y="124.98232382748057" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">5.0K</text><text x="740" y="124.98232382748057" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">5.0K</text>
+            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">8.5K</text><text x="400" y="105.3829837379213" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">5.9K</text><text x="740" y="124.98232382748057" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">5.0K</text>
             
             <!-- X-axis labels -->
-            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="286.66666666666663" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="513.3333333333333" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
             
             <!-- Y-axis labels -->
             <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">8.5K</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">6.4K</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">4.2K</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">2.1K</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0</text>
@@ -538,16 +640,16 @@
             <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
             
             <!-- Trend line -->
-            <path d="M 60,60 L 286.66666666666663,102.8631473605204 L 513.3333333333333,124.46134600950712 L 740,124.46134600950712" fill="none" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 60,60 L 400,102.8631473605204 L 740,124.46134600950712" fill="none" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             
             <!-- Data points -->
-            <circle cx="60" cy="60" r="5" fill="#2e7d32"/><circle cx="286.66666666666663" cy="102.8631473605204" r="5" fill="#2e7d32"/><circle cx="513.3333333333333" cy="124.46134600950712" r="5" fill="#2e7d32"/><circle cx="740" cy="124.46134600950712" r="5" fill="#2e7d32"/>
+            <circle cx="60" cy="60" r="5" fill="#2e7d32"/><circle cx="400" cy="102.8631473605204" r="5" fill="#2e7d32"/><circle cx="740" cy="124.46134600950712" r="5" fill="#2e7d32"/>
             
             <!-- Value labels on points -->
-            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">20.0K</text><text x="286.66666666666663" y="92.8631473605204" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">15.2K</text><text x="513.3333333333333" y="114.46134600950712" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">12.8K</text><text x="740" y="114.46134600950712" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">12.8K</text>
+            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">20.0K</text><text x="400" y="92.8631473605204" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">15.2K</text><text x="740" y="114.46134600950712" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">12.8K</text>
             
             <!-- X-axis labels -->
-            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="286.66666666666663" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="513.3333333333333" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
             
             <!-- Y-axis labels -->
             <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">20.0K</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">15.0K</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">10.0K</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">5.0K</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0</text>
@@ -568,16 +670,16 @@
             <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
             
             <!-- Trend line -->
-            <path d="M 60,63.10756972111554 L 286.66666666666663,62.62948207171314 L 513.3333333333333,60 L 740,60" fill="none" stroke="#FE5263" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 60,63.10756972111554 L 400,62.62948207171314 L 740,60" fill="none" stroke="#FE5263" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             
             <!-- Data points -->
-            <circle cx="60" cy="63.10756972111554" r="5" fill="#FE5263"/><circle cx="286.66666666666663" cy="62.62948207171314" r="5" fill="#FE5263"/><circle cx="513.3333333333333" cy="60" r="5" fill="#FE5263"/><circle cx="740" cy="60" r="5" fill="#FE5263"/>
+            <circle cx="60" cy="63.10756972111554" r="5" fill="#FE5263"/><circle cx="400" cy="62.62948207171314" r="5" fill="#FE5263"/><circle cx="740" cy="60" r="5" fill="#FE5263"/>
             
             <!-- Value labels on points -->
-            <text x="60" y="53.10756972111554" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">740</text><text x="286.66666666666663" y="52.62948207171314" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">742</text><text x="513.3333333333333" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">753</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">753</text>
+            <text x="60" y="53.10756972111554" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">740</text><text x="400" y="52.62948207171314" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">742</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">753</text>
             
             <!-- X-axis labels -->
-            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="286.66666666666663" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="513.3333333333333" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
             
             <!-- Y-axis labels -->
             <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">753</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">565</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">377</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">188</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0</text>
@@ -594,16 +696,16 @@
             <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
             
             <!-- Trend line -->
-            <path d="M 60,240 L 286.66666666666663,240 L 513.3333333333333,60 L 740,60" fill="none" stroke="#073742" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 60,240 L 400,240 L 740,60" fill="none" stroke="#073742" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             
             <!-- Data points -->
-            <circle cx="60" cy="240" r="5" fill="#073742"/><circle cx="286.66666666666663" cy="240" r="5" fill="#073742"/><circle cx="513.3333333333333" cy="60" r="5" fill="#073742"/><circle cx="740" cy="60" r="5" fill="#073742"/>
+            <circle cx="60" cy="240" r="5" fill="#073742"/><circle cx="400" cy="240" r="5" fill="#073742"/><circle cx="740" cy="60" r="5" fill="#073742"/>
             
             <!-- Value labels on points -->
-            <text x="60" y="230" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">0</text><text x="286.66666666666663" y="230" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">0</text><text x="513.3333333333333" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1.9K</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1.9K</text>
+            <text x="60" y="230" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">0</text><text x="400" y="230" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">0</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1.9K</text>
             
             <!-- X-axis labels -->
-            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="286.66666666666663" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="513.3333333333333" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
             
             <!-- Y-axis labels -->
             <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">1.9K</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">1.4K</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">932</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">466</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0</text>
@@ -620,16 +722,16 @@
             <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
             
             <!-- Trend line -->
-            <path d="M 60,76.11532625189682 L 286.66666666666663,70.26230218946455 L 513.3333333333333,60 L 740,60" fill="none" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 60,76.11532625189682 L 400,70.26230218946455 L 740,60" fill="none" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             
             <!-- Data points -->
-            <circle cx="60" cy="76.11532625189682" r="5" fill="#2e7d32"/><circle cx="286.66666666666663" cy="70.26230218946455" r="5" fill="#2e7d32"/><circle cx="513.3333333333333" cy="60" r="5" fill="#2e7d32"/><circle cx="740" cy="60" r="5" fill="#2e7d32"/>
+            <circle cx="60" cy="76.11532625189682" r="5" fill="#2e7d32"/><circle cx="400" cy="70.26230218946455" r="5" fill="#2e7d32"/><circle cx="740" cy="60" r="5" fill="#2e7d32"/>
             
             <!-- Value labels on points -->
-            <text x="60" y="66.11532625189682" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">4.2K</text><text x="286.66666666666663" y="60.26230218946455" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">4.3K</text><text x="513.3333333333333" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">4.6K</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">4.6K</text>
+            <text x="60" y="66.11532625189682" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">4.2K</text><text x="400" y="60.26230218946455" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">4.3K</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">4.6K</text>
             
             <!-- X-axis labels -->
-            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="286.66666666666663" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="513.3333333333333" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
             
             <!-- Y-axis labels -->
             <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">4.6K</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">3.5K</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">2.3K</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">1.2K</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0</text>
@@ -646,16 +748,16 @@
             <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
             
             <!-- Trend line -->
-            <path d="M 60,114.96183206106869 L 286.66666666666663,107.17557251908397 L 513.3333333333333,60 L 740,60" fill="none" stroke="#8A898F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 60,114.96183206106869 L 400,107.17557251908397 L 740,60" fill="none" stroke="#8A898F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             
             <!-- Data points -->
-            <circle cx="60" cy="114.96183206106869" r="5" fill="#8A898F"/><circle cx="286.66666666666663" cy="107.17557251908397" r="5" fill="#8A898F"/><circle cx="513.3333333333333" cy="60" r="5" fill="#8A898F"/><circle cx="740" cy="60" r="5" fill="#8A898F"/>
+            <circle cx="60" cy="114.96183206106869" r="5" fill="#8A898F"/><circle cx="400" cy="107.17557251908397" r="5" fill="#8A898F"/><circle cx="740" cy="60" r="5" fill="#8A898F"/>
             
             <!-- Value labels on points -->
-            <text x="60" y="104.96183206106869" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">27,3</text><text x="286.66666666666663" y="97.17557251908397" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">29,0</text><text x="513.3333333333333" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">39,3</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">39,3</text>
+            <text x="60" y="104.96183206106869" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">27,3</text><text x="400" y="97.17557251908397" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">29,0</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">39,3</text>
             
             <!-- X-axis labels -->
-            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="286.66666666666663" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="513.3333333333333" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
             
             <!-- Y-axis labels -->
             <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">39,3</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">29,5</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">19,7</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">9,8</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0,0</text>
@@ -676,16 +778,16 @@
             <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
             
             <!-- Trend line -->
-            <path d="M 60,60 L 286.66666666666663,108.21428571428572 L 513.3333333333333,108.21428571428572 L 740,108.21428571428572" fill="none" stroke="#FE5263" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 60,60 L 400,108.21428571428572 L 740,108.21428571428572" fill="none" stroke="#FE5263" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             
             <!-- Data points -->
-            <circle cx="60" cy="60" r="5" fill="#FE5263"/><circle cx="286.66666666666663" cy="108.21428571428572" r="5" fill="#FE5263"/><circle cx="513.3333333333333" cy="108.21428571428572" r="5" fill="#FE5263"/><circle cx="740" cy="108.21428571428572" r="5" fill="#FE5263"/>
+            <circle cx="60" cy="60" r="5" fill="#FE5263"/><circle cx="400" cy="108.21428571428572" r="5" fill="#FE5263"/><circle cx="740" cy="108.21428571428572" r="5" fill="#FE5263"/>
             
             <!-- Value labels on points -->
-            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">56,0</text><text x="286.66666666666663" y="98.21428571428572" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">41,0</text><text x="513.3333333333333" y="98.21428571428572" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">41,0</text><text x="740" y="98.21428571428572" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">41,0</text>
+            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">56,0</text><text x="400" y="98.21428571428572" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">41,0</text><text x="740" y="98.21428571428572" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">41,0</text>
             
             <!-- X-axis labels -->
-            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="286.66666666666663" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="513.3333333333333" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
             
             <!-- Y-axis labels -->
             <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">56,0</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">42,0</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">28,0</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">14,0</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0,0</text>
@@ -702,16 +804,16 @@
             <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
             
             <!-- Trend line -->
-            <path d="M 60,60 L 286.66666666666663,88.42105263157896 L 513.3333333333333,78.94736842105263 L 740,78.94736842105263" fill="none" stroke="#073742" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 60,60 L 400,88.42105263157896 L 740,78.94736842105263" fill="none" stroke="#073742" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             
             <!-- Data points -->
-            <circle cx="60" cy="60" r="5" fill="#073742"/><circle cx="286.66666666666663" cy="88.42105263157896" r="5" fill="#073742"/><circle cx="513.3333333333333" cy="78.94736842105263" r="5" fill="#073742"/><circle cx="740" cy="78.94736842105263" r="5" fill="#073742"/>
+            <circle cx="60" cy="60" r="5" fill="#073742"/><circle cx="400" cy="88.42105263157896" r="5" fill="#073742"/><circle cx="740" cy="78.94736842105263" r="5" fill="#073742"/>
             
             <!-- Value labels on points -->
-            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">57,0</text><text x="286.66666666666663" y="78.42105263157896" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">48,0</text><text x="513.3333333333333" y="68.94736842105263" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">51,0</text><text x="740" y="68.94736842105263" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">51,0</text>
+            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">57,0</text><text x="400" y="78.42105263157896" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">48,0</text><text x="740" y="68.94736842105263" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">51,0</text>
             
             <!-- X-axis labels -->
-            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="286.66666666666663" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="513.3333333333333" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
             
             <!-- Y-axis labels -->
             <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">57,0</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">42,8</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">28,5</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">14,3</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0,0</text>
@@ -728,16 +830,16 @@
             <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
             
             <!-- Trend line -->
-            <path d="M 60,70 L 286.66666666666663,60 L 513.3333333333333,60 L 740,60" fill="none" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 60,70 L 400,60 L 740,60" fill="none" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             
             <!-- Data points -->
-            <circle cx="60" cy="70" r="5" fill="#2e7d32"/><circle cx="286.66666666666663" cy="60" r="5" fill="#2e7d32"/><circle cx="513.3333333333333" cy="60" r="5" fill="#2e7d32"/><circle cx="740" cy="60" r="5" fill="#2e7d32"/>
+            <circle cx="60" cy="70" r="5" fill="#2e7d32"/><circle cx="400" cy="60" r="5" fill="#2e7d32"/><circle cx="740" cy="60" r="5" fill="#2e7d32"/>
             
             <!-- Value labels on points -->
-            <text x="60" y="60" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1,7</text><text x="286.66666666666663" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1,8</text><text x="513.3333333333333" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1,8</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1,8</text>
+            <text x="60" y="60" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1,7</text><text x="400" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1,8</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1,8</text>
             
             <!-- X-axis labels -->
-            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="286.66666666666663" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="513.3333333333333" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text>
             
             <!-- Y-axis labels -->
             <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">1,8</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">1,4</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0,9</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0,4</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0,0</text>
@@ -765,12 +867,9 @@
         }
       </script>
     </div>
-    </div>
-    
-    <div class="footer">
-      <p>Dieser Bericht wurde automatisch generiert.</p>
-      <p>© 2026 - Plural Reporting</p>
-    </div>
+        </div>
+      </div>
+    </main>
   </div>
 </body>
 </html>
