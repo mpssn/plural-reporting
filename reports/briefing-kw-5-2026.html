@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plural Reporting - KW 5/2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #20212F;
+      background: #FAFAFA;
+      padding: 0;
+      margin: 0;
+    }
+    
+    /* App Layout - Sidebar + Main Content (matching app/weekly/page.tsx) */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+      background: #FAFAFA; /* snow */
+    }
+    
+    /* Sidebar - Fixed Width (matching app: w-[348px]) */
+    .sidebar {
+      width: 348px;
+      min-width: 348px;
+      background: #FAFAFA; /* snow */
+      border-right: 1px solid #E8E6E4; /* cream */
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .sidebar-header {
+      padding: 24px; /* p-6 */
+      border-bottom: 1px solid #E8E6E4; /* border-cream */
+    }
+    
+    .sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px; /* p-6 */
+    }
+    
+    .sidebar-section {
+      margin-bottom: 24px;
+    }
+    
+    .sidebar-title {
+      font-size: 1.25rem; /* text-xl */
+      font-weight: 700; /* font-bold */
+      color: #20212F; /* text-black-howl */
+      margin-bottom: 8px;
+    }
+    
+    .sidebar-subtitle {
+      font-size: 1rem;
+      font-weight: 600; /* font-semibold */
+      color: #20212F; /* text-black-howl */
+      margin-bottom: 4px;
+    }
+    
+    .sidebar-date {
+      font-size: 0.875rem; /* text-sm */
+      color: #8A898F; /* text-box-office */
+    }
+    
+    /* Main Content - Flex 1 (matching app: flex-1 min-w-0) */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      overflow-x: hidden;
+      background: #FAFAFA; /* snow */
+    }
+    
+    .content-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 40px; /* py-8 px-8 lg:px-8 */
+    }
+    
+    .page-header {
+      margin-bottom: 40px; /* mb-10 lg:mb-12 */
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      gap: 12px; /* gap-3 */
+      margin-bottom: 24px; /* mb-6 */
+    }
+    
+    .badge {
+      font-size: 0.875rem; /* text-sm */
+      font-weight: 700; /* font-bold */
+      color: #FE5263; /* text-coral */
+      background: #F7F6F5; /* bg-wedding-dress */
+      padding: 4px 12px; /* px-3 py-1 */
+      border-radius: 9999px; /* rounded-full */
+    }
+    
+    .page-title {
+      font-size: 2.5rem; /* text-4xl lg:text-5xl */
+      font-weight: 700; /* font-bold */
+      color: #20212F; /* text-black-howl */
+      margin: 0 0 12px 0; /* mb-3 */
+      line-height: 1.2;
+      letter-spacing: -0.02em; /* tracking-tight */
+    }
+    
+    .page-subtitle {
+      font-size: 1.125rem; /* text-lg */
+      color: #8A898F; /* text-box-office */
+      margin: 0;
+      max-width: 42rem; /* max-w-2xl */
+    }
+    
+    .content {
+      padding: 0;
+    }
+    
+    .main-title {
+      font-size: 1.875rem;
+      margin: 30px 0 20px 0;
+      color: #20212F;
+      font-weight: 600;
+      border-bottom: 2px solid #FE5263;
+      padding-bottom: 10px;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      margin: 30px 0 15px 0;
+      color: #20212F;
+      font-weight: 600;
+    }
+    
+    h2.section-title {
+      font-size: 1.75rem;
+      margin-top: 40px;
+      border-top: 1px solid #E8E6E4;
+      padding-top: 20px;
+    }
+    
+    h3.section-title {
+      font-size: 1.25rem;
+      margin-top: 25px;
+      color: #073742;
+    }
+    
+    .briefing-content {
+      line-height: 1.8;
+      color: #20212F;
+    }
+    
+    .briefing-content p {
+      margin-bottom: 15px;
+    }
+    
+    .briefing-content ul {
+      margin: 15px 0 15px 30px;
+      list-style-type: disc;
+    }
+    
+    .briefing-content li {
+      margin-bottom: 8px;
+    }
+    
+    .briefing-content strong {
+      color: #20212F;
+      font-weight: 600;
+    }
+    
+    .charts-section {
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 2px solid #E8E6E4;
+    }
+    
+    .chart-card {
+      background: white; /* bg-white */
+      border: 1px solid #E8E6E4; /* border-cream */
+      border-radius: 12px; /* rounded-xl */
+      padding: 24px; /* p-6 lg:p-8 */
+      margin-bottom: 24px;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+    }
+    
+    .chart-card h3 {
+      font-size: 1.25rem; /* text-xl */
+      margin-bottom: 24px; /* mb-6 */
+      color: #20212F; /* text-black-howl */
+      font-weight: 700; /* font-bold */
+      display: flex;
+      align-items: center;
+      gap: 12px; /* gap-3 */
+    }
+    
+    /* Tab Navigation (like TrendOverview) */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #E8E6E4;
+    }
+    
+    .tab {
+      padding: 12px 24px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: #8A898F;
+      font-weight: 500;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    
+    .tab:hover {
+      color: #20212F;
+    }
+    
+    .tab.active {
+      color: #FE5263;
+      border-bottom-color: #FE5263;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Chart containers */
+    .chart-container {
+      margin-top: 20px;
+      height: 400px;
+      position: relative;
+    }
+    
+    .chart-svg {
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* Bar Chart Styles */
+    .bar-chart-container {
+      margin-top: 20px;
+    }
+    
+    .bar-item {
+      margin-bottom: 24px;
+    }
+    
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.875rem;
+      color: #8A898F;
+      font-weight: 500;
+    }
+    
+    .bar-wrapper {
+      position: relative;
+      height: 48px;
+      background: #F4F2F0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .bar-current {
+      height: 100%;
+      background: #FE5263;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      color: white;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: width 0.3s ease;
+    }
+    
+    .bar-previous {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: rgba(7, 55, 66, 0.2);
+      border-right: 2px solid #073742;
+    }
+    
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+    
+    .kpi-card {
+      background: #F4F2F0;
+      border: 1px solid #E8E6E4;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .kpi-label {
+      font-size: 0.75rem;
+      color: #8A898F;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    .kpi-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #20212F;
+      margin-bottom: 4px;
+    }
+    
+    .kpi-delta {
+      font-size: 0.75rem;
+      color: #8A898F;
+    }
+    
+    .kpi-delta.positive {
+      color: #2e7d32;
+    }
+    
+    .kpi-delta.negative {
+      color: #ba1a1a;
+    }
+    
+    .footer {
+      background: #FAFAFA;
+      border-top: 1px solid #E8E6E4;
+      padding: 24px 40px;
+      text-align: center;
+      color: #8A898F;
+      font-size: 0.875rem;
+    }
+    
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      
+      .container {
+        box-shadow: none;
+      }
+      
+      .header {
+        background: #FAFAFA;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+    
+    @media (max-width: 1024px) {
+      .app-layout {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        min-width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #E8E6E4; /* border-cream */
+      }
+      
+      .content-wrapper {
+        padding: 32px 24px; /* py-8 px-6 */
+      }
+    }
+    
+    @media (min-width: 1025px) {
+      /* Ensure sidebar is always visible on large screens */
+      .sidebar {
+        display: flex !important;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .content-wrapper {
+        padding: 16px;
+      }
+      
+      .page-title {
+        font-size: 1.875rem;
+      }
+      
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .chart-container {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar - Fixed Width (348px) -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div style="width: 108.8px; height: 32px; display: inline-block; flex-shrink: 0;"><svg width="111" height="32" viewBox="0 0 111 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.5603 25.8781V6.77828H45.6027C49.9101 6.77828 52.902 9.38948 52.902 13.1493C52.902 16.9159 49.8968 19.5404 45.6027 19.5404H40.781V25.8781H36.5603ZM40.781 16.0544H45.3756C47.4258 16.0544 48.6813 14.9592 48.6813 13.1493C48.6813 11.3529 47.4392 10.2643 45.409 10.2643H40.781V16.0544Z" fill="#073742"/>
+<path d="M59.002 6.11046V25.8781H55.0017V6.11046H59.002Z" fill="#073742"/>
+<path d="M71.2464 18.8793V11.1525H75.2466V25.8781H71.2464V21.4504C70.6253 24.5692 68.8021 26.2788 66.0707 26.2788C62.8985 26.2788 61.1822 23.9614 61.1822 19.7074V11.1525H65.1825V19.0396C65.1825 21.5506 66.1241 22.7928 68.0475 22.7928C70.0843 22.7928 71.2464 21.4037 71.2464 18.8793Z" fill="#073742"/>
+<path d="M81.4879 19.1531V25.8781H77.4876V11.1525H81.4879V16.2681C82.0222 13.116 83.5314 11.1525 86.4098 11.1525H87.2913V14.9191H85.7419C82.4629 14.9191 81.4879 16.2547 81.4879 19.1531Z" fill="#073742"/>
+<path d="M88.8292 16.5486C88.8292 12.9757 91.5339 10.7518 95.9081 10.7518C100.403 10.7518 103.061 13.116 103.061 17.1429V25.8781H99.0603V22.1116C98.3991 24.6894 96.2888 26.2788 93.4105 26.2788C90.3986 26.2788 88.3951 24.5425 88.3951 21.9313C88.3951 19.1397 90.6724 17.4835 94.5124 17.4835H99.0603V17.1429C99.0603 15.1194 97.8649 13.904 95.8146 13.904C93.7511 13.904 92.8161 14.9124 92.8161 16.5486H88.8292ZM99.0603 19.9144H94.9264C93.2702 19.9144 92.3954 20.4821 92.3954 21.5573C92.3954 22.6725 93.3303 23.3003 94.9865 23.3003C97.3306 23.3003 99.0603 22.0448 99.0603 20.3485V19.9144Z" fill="#073742"/>
+<path d="M109.243 6.11046V25.8781H105.243V6.11046H109.243Z" fill="#073742"/>
+<path d="M2.44952 13.4033C2.27647 11.4279 2.52836 9.53481 3.64093 7.86032C6.02433 4.27325 10.537 2.40354 14.9202 2.61521C18.9353 2.80915 22.1423 5.63793 24.5218 8.88767C26.6287 11.7653 27.4605 15.2837 26.7239 18.7461C25.9957 22.169 23.777 25.0007 20.7083 26.8027C17.3022 28.8028 13.2518 30.3121 9.69952 28.7597C7.92435 27.9838 6.72106 26.5907 5.82355 24.914C4.92447 23.2344 4.33875 21.2825 3.79327 19.4013C3.22116 17.4283 2.62293 15.3823 2.44952 13.4033Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M0.220702 12.9395C0.0172232 10.605 0.312327 8.36359 1.62305 6.38086C4.42696 2.13951 9.73396 -0.0682832 14.8857 0.18164C19.6107 0.410977 23.3823 3.75586 26.1768 7.5918C28.6544 10.9928 29.6331 15.1527 28.7666 19.2461C27.9099 23.2931 25.2999 26.6393 21.6924 28.7686C17.6939 31.1285 12.9295 32.9162 8.74707 31.0791C6.65574 30.1605 5.23903 28.5111 4.18359 26.5293C3.12667 24.5446 2.43797 22.2393 1.79785 20.0205C1.12658 17.6937 0.424529 15.2775 0.220702 12.9395Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M3.63806 13.6507C3.48281 11.8665 3.70864 10.158 4.70544 8.64775C6.84265 5.41005 10.8898 3.72224 14.8217 3.91338C18.4199 4.08831 21.2964 6.64009 23.433 9.57744C25.3232 12.1762 26.0694 15.3542 25.4086 18.4808C24.7553 21.5711 22.7656 24.127 20.0131 25.7542C16.954 27.5625 13.3232 28.9234 10.141 27.5237C8.55079 26.8242 7.47166 25.5675 6.66638 24.053C5.85971 22.5359 5.33411 20.7726 4.84412 19.0716C4.33015 17.2873 3.79367 15.4384 3.63806 13.6507Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M4.8266 13.8981C4.68812 12.3053 4.88917 10.782 5.77679 9.43615C7.68203 6.54737 11.2917 5.03991 14.7993 5.21056C18.0057 5.36656 20.5712 7.64329 22.4789 10.2682C24.1648 12.5878 24.8299 15.4242 24.2407 18.2145C23.6582 20.972 21.8842 23.2531 19.4291 24.7057C16.6968 26.3222 13.4598 27.5346 10.6254 26.2867C9.20964 25.6634 8.24797 24.5438 7.52972 23.192C6.80999 21.8373 6.34157 20.262 5.90375 18.7408C5.4445 17.1452 4.96544 15.4944 4.8266 13.8981Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M6.01514 14.1454C5.89343 12.7441 6.07067 11.4061 6.84912 10.2245C8.52247 7.68499 11.6938 6.35858 14.7769 6.50873C17.5913 6.64582 19.846 8.64657 21.5249 10.9589C23.0063 12.9994 23.5903 15.4934 23.0728 17.9472C22.5611 20.3724 21.0023 22.3792 18.8442 23.6572C16.4386 25.0818 13.5962 26.1455 11.1099 25.0497C9.86857 24.5026 9.02523 23.5192 8.39404 22.33C7.76139 21.138 7.34799 19.7521 6.9624 18.4111C6.55787 17.0042 6.13721 15.5504 6.01514 14.1454Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M7.20367 14.3938C7.10068 13.1831 7.25035 12.0296 7.9068 11.012C9.31981 8.82162 11.9979 7.67739 14.6021 7.80689C16.9743 7.92488 18.8792 9.64733 20.3013 11.6477C21.5536 13.4093 22.0476 15.5631 21.6099 17.6819C21.1775 19.7754 19.86 21.5068 18.0367 22.6096C15.9983 23.8425 13.6009 24.7561 11.5074 23.8137C10.4623 23.3433 9.75013 22.4971 9.21637 21.47C8.68139 20.4404 8.33226 19.2422 8.00543 18.0813C7.66254 16.8633 7.30697 15.6076 7.20367 14.3938Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M8.39215 14.6412C8.3059 13.6217 8.43164 12.6537 8.97906 11.8004C10.1603 9.95908 12.4001 8.99606 14.5797 9.10506C16.5597 9.20409 18.1529 10.6504 19.3463 12.3385C20.3943 13.821 20.8081 15.6329 20.442 17.4156C20.0802 19.1766 18.9786 20.634 17.4527 21.5621C15.7411 22.6031 13.738 23.3666 11.9927 22.5767C11.122 22.1827 10.5275 21.4736 10.0806 20.609C9.63253 19.7419 9.33965 18.7325 9.065 17.7515C8.77681 16.7222 8.47869 15.6637 8.39215 14.6412Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M9.57971 14.9195C9.51131 14.1156 9.6124 13.3564 10.0436 12.688C10.9782 11.2395 12.752 10.4791 14.4811 10.565C16.0452 10.6428 17.3083 11.7795 18.2584 13.1158C19.0893 14.2843 19.4166 15.7118 19.1266 17.1158C18.8402 18.5022 17.9675 19.6506 16.7574 20.3824C15.3931 21.2075 13.8083 21.8044 12.4323 21.1851C11.7471 20.8766 11.2776 20.3215 10.9235 19.6402C10.5679 18.9561 10.335 18.1579 10.1158 17.3795C9.88581 16.5625 9.6484 15.7265 9.57971 14.9195Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M10.7682 15.1669C10.7166 14.5541 10.7936 13.9796 11.1159 13.4755C11.8189 12.3762 13.1547 11.7978 14.4587 11.8632C15.6303 11.922 16.5829 12.7815 17.3044 13.8055C17.9311 14.695 18.1773 15.7814 17.9587 16.8495C17.7429 17.9036 17.0852 18.7769 16.1725 19.3339C15.1348 19.9672 13.9452 20.4157 12.9177 19.9491C12.4066 19.717 12.0542 19.2984 11.7868 18.7792C11.5181 18.2576 11.3424 17.6481 11.1755 17.0497C11.0001 16.4213 10.8202 15.7827 10.7682 15.1669Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M11.9568 15.5109C11.9229 15.1012 11.9736 14.7235 12.1804 14.3937C12.6375 13.6653 13.5083 13.2799 14.3601 13.3234C15.1141 13.362 15.7357 13.9269 16.2146 14.6193C16.6248 15.2125 16.7863 15.9369 16.6433 16.6486C16.5023 17.3501 16.0729 17.931 15.4763 18.302C14.7854 18.7315 14.0157 19.0207 13.3591 18.717C13.0336 18.5664 12.8059 18.2932 12.6306 17.9465C12.4542 17.5975 12.3378 17.1885 12.2263 16.7814C12.1091 16.3535 11.991 15.9238 11.9568 15.5109Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M13.1453 15.856C13.129 15.648 13.1541 15.4653 13.2469 15.3091C13.4594 14.9516 13.8649 14.7623 14.2615 14.7837C14.5955 14.8018 14.8864 15.0689 15.1238 15.4312C15.3184 15.7282 15.3959 16.0917 15.3279 16.4487C15.2612 16.7991 15.0583 17.0881 14.7781 17.272C14.4333 17.4983 14.0856 17.6231 13.8026 17.4849C13.6628 17.4165 13.5593 17.2899 13.4754 17.1148C13.3909 16.9382 13.3341 16.7297 13.2781 16.5142C13.2192 16.2869 13.1618 16.0664 13.1453 15.856Z" stroke="#FE5263" stroke-width="0.324873"/>
+</svg></div>
+      </div>
+      <div class="sidebar-content">
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Plural Reporting</h3>
+          <p class="sidebar-subtitle">KW 5/2026</p>
+          <p class="sidebar-date">26. Januar 2026</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content - Flex 1 -->
+    <main class="main-content">
+      <div class="content-wrapper">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div class="header-content">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 108.8px; height: 32px; display: inline-block; flex-shrink: 0;"><svg width="111" height="32" viewBox="0 0 111 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.5603 25.8781V6.77828H45.6027C49.9101 6.77828 52.902 9.38948 52.902 13.1493C52.902 16.9159 49.8968 19.5404 45.6027 19.5404H40.781V25.8781H36.5603ZM40.781 16.0544H45.3756C47.4258 16.0544 48.6813 14.9592 48.6813 13.1493C48.6813 11.3529 47.4392 10.2643 45.409 10.2643H40.781V16.0544Z" fill="#073742"/>
+<path d="M59.002 6.11046V25.8781H55.0017V6.11046H59.002Z" fill="#073742"/>
+<path d="M71.2464 18.8793V11.1525H75.2466V25.8781H71.2464V21.4504C70.6253 24.5692 68.8021 26.2788 66.0707 26.2788C62.8985 26.2788 61.1822 23.9614 61.1822 19.7074V11.1525H65.1825V19.0396C65.1825 21.5506 66.1241 22.7928 68.0475 22.7928C70.0843 22.7928 71.2464 21.4037 71.2464 18.8793Z" fill="#073742"/>
+<path d="M81.4879 19.1531V25.8781H77.4876V11.1525H81.4879V16.2681C82.0222 13.116 83.5314 11.1525 86.4098 11.1525H87.2913V14.9191H85.7419C82.4629 14.9191 81.4879 16.2547 81.4879 19.1531Z" fill="#073742"/>
+<path d="M88.8292 16.5486C88.8292 12.9757 91.5339 10.7518 95.9081 10.7518C100.403 10.7518 103.061 13.116 103.061 17.1429V25.8781H99.0603V22.1116C98.3991 24.6894 96.2888 26.2788 93.4105 26.2788C90.3986 26.2788 88.3951 24.5425 88.3951 21.9313C88.3951 19.1397 90.6724 17.4835 94.5124 17.4835H99.0603V17.1429C99.0603 15.1194 97.8649 13.904 95.8146 13.904C93.7511 13.904 92.8161 14.9124 92.8161 16.5486H88.8292ZM99.0603 19.9144H94.9264C93.2702 19.9144 92.3954 20.4821 92.3954 21.5573C92.3954 22.6725 93.3303 23.3003 94.9865 23.3003C97.3306 23.3003 99.0603 22.0448 99.0603 20.3485V19.9144Z" fill="#073742"/>
+<path d="M109.243 6.11046V25.8781H105.243V6.11046H109.243Z" fill="#073742"/>
+<path d="M2.44952 13.4033C2.27647 11.4279 2.52836 9.53481 3.64093 7.86032C6.02433 4.27325 10.537 2.40354 14.9202 2.61521C18.9353 2.80915 22.1423 5.63793 24.5218 8.88767C26.6287 11.7653 27.4605 15.2837 26.7239 18.7461C25.9957 22.169 23.777 25.0007 20.7083 26.8027C17.3022 28.8028 13.2518 30.3121 9.69952 28.7597C7.92435 27.9838 6.72106 26.5907 5.82355 24.914C4.92447 23.2344 4.33875 21.2825 3.79327 19.4013C3.22116 17.4283 2.62293 15.3823 2.44952 13.4033Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M0.220702 12.9395C0.0172232 10.605 0.312327 8.36359 1.62305 6.38086C4.42696 2.13951 9.73396 -0.0682832 14.8857 0.18164C19.6107 0.410977 23.3823 3.75586 26.1768 7.5918C28.6544 10.9928 29.6331 15.1527 28.7666 19.2461C27.9099 23.2931 25.2999 26.6393 21.6924 28.7686C17.6939 31.1285 12.9295 32.9162 8.74707 31.0791C6.65574 30.1605 5.23903 28.5111 4.18359 26.5293C3.12667 24.5446 2.43797 22.2393 1.79785 20.0205C1.12658 17.6937 0.424529 15.2775 0.220702 12.9395Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M3.63806 13.6507C3.48281 11.8665 3.70864 10.158 4.70544 8.64775C6.84265 5.41005 10.8898 3.72224 14.8217 3.91338C18.4199 4.08831 21.2964 6.64009 23.433 9.57744C25.3232 12.1762 26.0694 15.3542 25.4086 18.4808C24.7553 21.5711 22.7656 24.127 20.0131 25.7542C16.954 27.5625 13.3232 28.9234 10.141 27.5237C8.55079 26.8242 7.47166 25.5675 6.66638 24.053C5.85971 22.5359 5.33411 20.7726 4.84412 19.0716C4.33015 17.2873 3.79367 15.4384 3.63806 13.6507Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M4.8266 13.8981C4.68812 12.3053 4.88917 10.782 5.77679 9.43615C7.68203 6.54737 11.2917 5.03991 14.7993 5.21056C18.0057 5.36656 20.5712 7.64329 22.4789 10.2682C24.1648 12.5878 24.8299 15.4242 24.2407 18.2145C23.6582 20.972 21.8842 23.2531 19.4291 24.7057C16.6968 26.3222 13.4598 27.5346 10.6254 26.2867C9.20964 25.6634 8.24797 24.5438 7.52972 23.192C6.80999 21.8373 6.34157 20.262 5.90375 18.7408C5.4445 17.1452 4.96544 15.4944 4.8266 13.8981Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M6.01514 14.1454C5.89343 12.7441 6.07067 11.4061 6.84912 10.2245C8.52247 7.68499 11.6938 6.35858 14.7769 6.50873C17.5913 6.64582 19.846 8.64657 21.5249 10.9589C23.0063 12.9994 23.5903 15.4934 23.0728 17.9472C22.5611 20.3724 21.0023 22.3792 18.8442 23.6572C16.4386 25.0818 13.5962 26.1455 11.1099 25.0497C9.86857 24.5026 9.02523 23.5192 8.39404 22.33C7.76139 21.138 7.34799 19.7521 6.9624 18.4111C6.55787 17.0042 6.13721 15.5504 6.01514 14.1454Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M7.20367 14.3938C7.10068 13.1831 7.25035 12.0296 7.9068 11.012C9.31981 8.82162 11.9979 7.67739 14.6021 7.80689C16.9743 7.92488 18.8792 9.64733 20.3013 11.6477C21.5536 13.4093 22.0476 15.5631 21.6099 17.6819C21.1775 19.7754 19.86 21.5068 18.0367 22.6096C15.9983 23.8425 13.6009 24.7561 11.5074 23.8137C10.4623 23.3433 9.75013 22.4971 9.21637 21.47C8.68139 20.4404 8.33226 19.2422 8.00543 18.0813C7.66254 16.8633 7.30697 15.6076 7.20367 14.3938Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M8.39215 14.6412C8.3059 13.6217 8.43164 12.6537 8.97906 11.8004C10.1603 9.95908 12.4001 8.99606 14.5797 9.10506C16.5597 9.20409 18.1529 10.6504 19.3463 12.3385C20.3943 13.821 20.8081 15.6329 20.442 17.4156C20.0802 19.1766 18.9786 20.634 17.4527 21.5621C15.7411 22.6031 13.738 23.3666 11.9927 22.5767C11.122 22.1827 10.5275 21.4736 10.0806 20.609C9.63253 19.7419 9.33965 18.7325 9.065 17.7515C8.77681 16.7222 8.47869 15.6637 8.39215 14.6412Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M9.57971 14.9195C9.51131 14.1156 9.6124 13.3564 10.0436 12.688C10.9782 11.2395 12.752 10.4791 14.4811 10.565C16.0452 10.6428 17.3083 11.7795 18.2584 13.1158C19.0893 14.2843 19.4166 15.7118 19.1266 17.1158C18.8402 18.5022 17.9675 19.6506 16.7574 20.3824C15.3931 21.2075 13.8083 21.8044 12.4323 21.1851C11.7471 20.8766 11.2776 20.3215 10.9235 19.6402C10.5679 18.9561 10.335 18.1579 10.1158 17.3795C9.88581 16.5625 9.6484 15.7265 9.57971 14.9195Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M10.7682 15.1669C10.7166 14.5541 10.7936 13.9796 11.1159 13.4755C11.8189 12.3762 13.1547 11.7978 14.4587 11.8632C15.6303 11.922 16.5829 12.7815 17.3044 13.8055C17.9311 14.695 18.1773 15.7814 17.9587 16.8495C17.7429 17.9036 17.0852 18.7769 16.1725 19.3339C15.1348 19.9672 13.9452 20.4157 12.9177 19.9491C12.4066 19.717 12.0542 19.2984 11.7868 18.7792C11.5181 18.2576 11.3424 17.6481 11.1755 17.0497C11.0001 16.4213 10.8202 15.7827 10.7682 15.1669Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M11.9568 15.5109C11.9229 15.1012 11.9736 14.7235 12.1804 14.3937C12.6375 13.6653 13.5083 13.2799 14.3601 13.3234C15.1141 13.362 15.7357 13.9269 16.2146 14.6193C16.6248 15.2125 16.7863 15.9369 16.6433 16.6486C16.5023 17.3501 16.0729 17.931 15.4763 18.302C14.7854 18.7315 14.0157 19.0207 13.3591 18.717C13.0336 18.5664 12.8059 18.2932 12.6306 17.9465C12.4542 17.5975 12.3378 17.1885 12.2263 16.7814C12.1091 16.3535 11.991 15.9238 11.9568 15.5109Z" stroke="#FE5263" stroke-width="0.324873"/>
+<path d="M13.1453 15.856C13.129 15.648 13.1541 15.4653 13.2469 15.3091C13.4594 14.9516 13.8649 14.7623 14.2615 14.7837C14.5955 14.8018 14.8864 15.0689 15.1238 15.4312C15.3184 15.7282 15.3959 16.0917 15.3279 16.4487C15.2612 16.7991 15.0583 17.0881 14.7781 17.272C14.4333 17.4983 14.0856 17.6231 13.8026 17.4849C13.6628 17.4165 13.5593 17.2899 13.4754 17.1148C13.3909 16.9382 13.3341 16.7297 13.2781 16.5142C13.2192 16.2869 13.1618 16.0664 13.1453 15.856Z" stroke="#FE5263" stroke-width="0.324873"/>
+</svg></div>
+            </div>
+            <span class="badge">REPORTING</span>
+          </div>
+          <h1 class="page-title">Wöchentlicher Bericht</h1>
+          <p class="page-subtitle">KW 5/2026 - 26. Januar 2026</p>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+          <div class="briefing-content">
+            📊 Weekly Performance Briefing – KW 5/2026</p><p>Traffic, Engagement & Community-Entwicklung</p><p>⸻</p><p><strong>1. Executive Summary</strong><br>   - Die Plattform verzeichnete in KW 5 insgesamt 6763 einzigartige Besucher, was einem Anstieg von 1200 Nutzern (+21,6%) im Vergleich zur Vorwoche entspricht.<br>   - Die Gesamtzahl der Besuche stieg auf 10161 (+1945 | +23,7%), während die Aktionen im gleichen Zeitraum um 4641 (+30,4%) auf 19904 anstiegen.<br>   - Die Engagement-Kennzahl „Aktionen pro Besuch“ verbesserte sich leicht auf 2 (+5,3%), was auf eine gesteigerte Interaktionsbereitschaft der Nutzer hinweist.<br>   - Die durchschnittliche Verweildauer auf der Seite betrug 1 Minute 0 Sekunden, ein Anstieg um 27,7% im Vergleich zur Vorwoche, was auf ein höheres Interesse an den Inhalten hindeutet.<br>   - Die Bounce-Rate sank auf 45%, ein Indikator für verbesserte Nutzerbindung und Relevanz der Inhalte.<br>   - Trotz der positiven Traffic-Entwicklung bleibt der Rückgang der Kommentare (+171 | +3,6%) ein strukturelles Signal, dass die Nutzerbeteiligung in den Diskussionen hinter den Erwartungen zurückbleibt.</p><p>⸻</p><p><strong>2. Harte Fakten – Einordnung der Woche</strong></p><p>Community & Aktivität<br>   - Neue Kommentare: 171 (+171 | +3,6% zur Vorwoche)<br>   - Aktive Nutzer: 21 (+21 | +2,8% zur Vorwoche)<br>   - Gesamtstand: 4929 veröffentlichte Kommentare, 784 aktive Nutzer, 1930 Gesamtzahl Nutzer</p><p>Traffic & Nutzung<br>   - Besuche: 10161 (+1945 | +23,7%)<br>   - Eindeutige Besucher: 6763 (+1200 | +21,6%)<br>   - Aktionen: 19904 (+4641 | +30,4%)</p><p>Die Zunahme an Besuchen und Aktionen zeigt eine positive Entwicklung im Nutzerverhalten, während die stagnierende Kommentaranzahl auf mögliche inhaltliche oder thematische Anpassungsbedarfe hindeutet.</p><p>⸻</p><p><strong>3. Traffic & Engagement – analytische Interpretation</strong></p><p>Die Plattform wurde in dieser Woche von 6763 Nutzern besucht, die 10161 Besuche und 19904 Aktionen ausgelöst haben. Die durchschnittliche Verweildauer betrug 1 Minute 0 Sekunden und die Absprungrate liegt bei 45%. </p><p>Die Engagement-Kennzahlen deuten darauf hin, dass trotz der hohen Anzahl an Besuchen die Interaktion in Form von Kommentaren nicht im gleichen Maße zunimmt. Der Rückgang in den Gesamtvolumina spricht daher primär für eine mögliche Entkoppelung zwischen Traffic- und Engagement-Zahlen, was strategisch beobachtet werden sollte.</p><p>⸻</p><p><strong>4. Acquisition & Referrer – strukturelle Abhängigkeiten</strong></p><p>Die Besucher verteilen sich wie folgt:<br>   - Direkte Zugriffe: 454 (+52 | +12,9%)<br>   - Suchmaschinen: 295 (-4 | -1,3%)<br>   - Websites: 9411 (+1897 | +25,2%)<br>   - Soziale Medien: 1 (unverändert)</p><p>Damit stammt der überwiegende Teil des Traffics aus externen Websites, was die strategische Bedeutung dieser Quelle unterstreicht: Die hohe Abhängigkeit von Referrals erhöht die Volatilität und stellt ein Risiko dar, falls diese Quelle nachlässt. Ein klarer Prüfauftrag entsteht: Welche Referrer sind konkret zurückgegangen – und warum?</p><p>⸻</p><p><strong>5. Content- & Einstiegsperspektive</strong></p><p>Die Top 5 Einstiegsseiten mit Besuchszahlen sind:<br>1. https://plural.place/resource/inhalt.dieses-video-ist-ein-hit-wenn-veilsdorfer-kuehe-im-schnee-tanzen.1afbc607-7250-40fe-97f1-71fbcdf94f39.html - 664 Besuche<br>2. https://plural.place/resource/inhalt.in-der-ascher-strasse-hoferin-sieht-vier-woelfe-im-garten.f097d4d8-8d1b-4ac3-9908-296e32716936.html - 402 Besuche<br>3. https://plural.place/resource/inhalt.hofer-passanten-wundern-sich-winterdienst-im-doppelpack-was-soll-das.3222571b-987c-4c2f-95b9-09e86d4152d6.html - 303 Besuche<br>4. https://plural.place/resource/inhalt.friedrich-merz-der-noergler-aus-berlin-und-die-faulen-deutschen.8d971ee1-a92b-4a87-912e-9e9c22605361.html - 203 Besuche<br>5. https://plural.place/resource/inhalt.schnee-und-glaette-stadtbusse-in-coburg-bleiben-stehen.4fe6311e-c622-4230-9b1f-2a788f56d758.html - 276 Besuche</p><p>Die meistgenutzten Einstiegsseiten beschäftigen sich überwiegend mit aktuellen Ereignissen und unterhaltsamen Inhalten. Gerade im Kontext des Kommentarrückgangs ist hier entscheidend: Ob die Reichweite diese Woche stärker auf informationsgetriebene Inhalte entfiel, bedarf einer weiteren Analyse.</p><p>⸻</p><p><strong>6. Entwicklung & Trends</strong></p><p>Im Wochenvergleich zeigt sich eine klare Steigerung der Besucherzahlen und der Interaktionen. Dieses Auseinanderlaufen zwischen Traffic-Zuwachs und stagnierendem Kommentarvolumen ist analytisch relevanter als der reine Rückgang selbst. Sollte sich dieses Muster in den kommenden Wochen bestätigen, wäre dies ein Indikator für die Notwendigkeit, Inhalte zu optimieren oder die Community-Engagement-Strategie zu überdenken.</p><p>⸻</p><p><strong>7. Auffälligkeiten & Risiken</strong></p><p><ul><li>Der massive Rückgang der Kommentare ist keine normale Traffic-Schwankung, sondern weist auf ein potenzielles Engagement-Problem hin.</li><br><li>Die hohe Abhängigkeit von Referrals erhöht die Volatilität und könnte die langfristige Stabilität der Nutzerbasis gefährden.</li></ul></p><p>⸻</p><p><strong>8. Empfehlungen</strong></p><p>1. **Inhaltsanalyse durchführen**<br>   - Welche Themen und Formate fördern die Nutzerinteraktion und könnten verstärkt eingesetzt werden?<br>   <br>2. **Engagement-Strategie überarbeiten**<br>   - Wie können wir die Nutzer aktiv dazu ermutigen, mehr Kommentare zu hinterlassen und sich zu beteiligen?</p><p>3. **Referrer-Analyse vertiefen**<br>   - Welche spezifischen externen Websites bringen den meisten Traffic und wie können wir diese Beziehungen stärken?</p><p>4. **Zielgerichtete Marketingmaßnahmen entwickeln**<br>   - Welche weiteren Traffic-Quellen können erschlossen werden, um die Abhängigkeit von bestehenden Referrals zu verringern?
+          </div>
+          
+          <div class="charts-section"><h2 class="section-title">📊 Infografiken</h2>
+      <div class="chart-card">
+        <h3>Besucher & Aktivitäten im Vergleich</h3>
+        <div class="bar-chart-container">
+          
+          <div class="bar-item">
+            <div class="bar-label">
+              <span>Besuche</span>
+              <span><strong>10.161</strong> (Vorwoche: 8.216)</span>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-previous" style="width: 41.27813504823151%"></div>
+              <div class="bar-current" style="width: 51.05004019292605%">
+                10.161
+              </div>
+            </div>
+          </div>
+        
+          <div class="bar-item">
+            <div class="bar-label">
+              <span>Eindeutige Besucher</span>
+              <span><strong>6.763</strong> (Vorwoche: 5.563)</span>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-previous" style="width: 27.949155948553056%"></div>
+              <div class="bar-current" style="width: 33.97809485530547%">
+                6.763
+              </div>
+            </div>
+          </div>
+        
+          <div class="bar-item">
+            <div class="bar-label">
+              <span>Aktionen</span>
+              <span><strong>19.904</strong> (Vorwoche: 15.263)</span>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-previous" style="width: 76.68307877813506%"></div>
+              <div class="bar-current" style="width: 100%">
+                19.904
+              </div>
+            </div>
+          </div>
+        
+          <div class="bar-item">
+            <div class="bar-label">
+              <span>Aktive Nutzer</span>
+              <span><strong>784</strong> (Vorwoche: 763)</span>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-previous" style="width: 3.8334003215434085%"></div>
+              <div class="bar-current" style="width: 3.938906752411576%">
+                784
+              </div>
+            </div>
+          </div>
+        
+          <div class="bar-item">
+            <div class="bar-label">
+              <span>Veröffentlichte Kommentare</span>
+              <span><strong>4.929</strong> (Vorwoche: 4.758)</span>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar-previous" style="width: 23.904742765273312%"></div>
+              <div class="bar-current" style="width: 24.763866559485532%">
+                4.929
+              </div>
+            </div>
+          </div>
+        
+        </div>
+      </div>
+    
+      <div class="chart-card">
+        <h3>Engagement-Metriken</h3>
+        <div class="kpi-grid">
+          
+      <div class="kpi-card">
+        <div class="kpi-label">Aktionen pro Besuch</div>
+        <div class="kpi-value">2.00</div>
+      </div>
+    
+      <div class="kpi-card">
+        <div class="kpi-label">Durchschnittliche Besuchszeit</div>
+        <div class="kpi-value">60s</div>
+      </div>
+    
+      <div class="kpi-card">
+        <div class="kpi-label">Absprungsrate</div>
+        <div class="kpi-value">45.0%</div>
+      </div>
+    
+        </div>
+      </div>
+    
+      <div class="chart-card">
+        <h3>Trend-Übersicht</h3>
+        <div class="tabs">
+          <button class="tab active" onclick="showTab(event, 'traffic')">📊 Traffic</button>
+          <button class="tab" onclick="showTab(event, 'community')">👥 Community</button>
+          <button class="tab" onclick="showTab(event, 'engagement')">⚡ Engagement</button>
+        </div>
+        <div id="traffic" class="tab-content active">
+          
+      <div style="background: white; border: 1px solid #E8E6E4; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <h4 style="font-size: 1rem; font-weight: 600; color: #20212F; margin-bottom: 16px;">Besuche</h4>
+        
+        <div class="chart-container">
+          <svg class="chart-svg" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid meet">
+            <!-- Grid lines -->
+            <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
+            
+            <!-- Trend line -->
+            <path d="M 60,60 L 230,115.09068115336399 L 400,134.01587964897618 L 570,116.39949853740076 L 740,87.13915587129128" fill="none" stroke="#FE5263" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Data points -->
+            <circle cx="60" cy="60" r="5" fill="#FE5263"/><circle cx="230" cy="115.09068115336399" r="5" fill="#FE5263"/><circle cx="400" cy="134.01587964897618" r="5" fill="#FE5263"/><circle cx="570" cy="116.39949853740076" r="5" fill="#FE5263"/><circle cx="740" cy="87.13915587129128" r="5" fill="#FE5263"/>
+            
+            <!-- Value labels on points -->
+            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">12.0K</text><text x="230" y="105.09068115336399" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">8.3K</text><text x="400" y="124.01587964897618" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">7.0K</text><text x="570" y="106.39949853740076" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">8.2K</text><text x="740" y="77.13915587129128" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">10.2K</text>
+            
+            <!-- X-axis labels -->
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="230" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="570" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 4/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 5/2026</text>
+            
+            <!-- Y-axis labels -->
+            <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">12.0K</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">9.0K</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">6.0K</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">3.0K</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0</text>
+          </svg>
+        </div>
+      
+      </div>
+      <div style="background: white; border: 1px solid #E8E6E4; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <h4 style="font-size: 1rem; font-weight: 600; color: #20212F; margin-bottom: 16px;">Eindeutige Besucher</h4>
+        
+        <div class="chart-container">
+          <svg class="chart-svg" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid meet">
+            <!-- Grid lines -->
+            <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
+            
+            <!-- Trend line -->
+            <path d="M 60,60 L 230,115.3829837379213 L 400,134.98232382748057 L 570,122.00094272920104 L 740,96.54725430120197" fill="none" stroke="#073742" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Data points -->
+            <circle cx="60" cy="60" r="5" fill="#073742"/><circle cx="230" cy="115.3829837379213" r="5" fill="#073742"/><circle cx="400" cy="134.98232382748057" r="5" fill="#073742"/><circle cx="570" cy="122.00094272920104" r="5" fill="#073742"/><circle cx="740" cy="96.54725430120197" r="5" fill="#073742"/>
+            
+            <!-- Value labels on points -->
+            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">8.5K</text><text x="230" y="105.3829837379213" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">5.9K</text><text x="400" y="124.98232382748057" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">5.0K</text><text x="570" y="112.00094272920104" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">5.6K</text><text x="740" y="86.54725430120197" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">6.8K</text>
+            
+            <!-- X-axis labels -->
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="230" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="570" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 4/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 5/2026</text>
+            
+            <!-- Y-axis labels -->
+            <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">8.5K</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">6.4K</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">4.2K</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">2.1K</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0</text>
+          </svg>
+        </div>
+      
+      </div>
+      <div style="background: white; border: 1px solid #E8E6E4; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <h4 style="font-size: 1rem; font-weight: 600; color: #20212F; margin-bottom: 16px;">Aktionen</h4>
+        
+        <div class="chart-container">
+          <svg class="chart-svg" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid meet">
+            <!-- Grid lines -->
+            <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
+            
+            <!-- Trend line -->
+            <path d="M 60,60 L 230,102.8631473605204 L 400,124.46134600950712 L 570,102.5298974230673 L 740,60.72954716037026" fill="none" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Data points -->
+            <circle cx="60" cy="60" r="5" fill="#2e7d32"/><circle cx="230" cy="102.8631473605204" r="5" fill="#2e7d32"/><circle cx="400" cy="124.46134600950712" r="5" fill="#2e7d32"/><circle cx="570" cy="102.5298974230673" r="5" fill="#2e7d32"/><circle cx="740" cy="60.72954716037026" r="5" fill="#2e7d32"/>
+            
+            <!-- Value labels on points -->
+            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">20.0K</text><text x="230" y="92.8631473605204" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">15.2K</text><text x="400" y="114.46134600950712" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">12.8K</text><text x="570" y="92.5298974230673" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">15.3K</text><text x="740" y="50.72954716037026" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">19.9K</text>
+            
+            <!-- X-axis labels -->
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="230" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="570" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 4/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 5/2026</text>
+            
+            <!-- Y-axis labels -->
+            <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">20.0K</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">15.0K</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">10.0K</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">5.0K</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0</text>
+          </svg>
+        </div>
+      
+      </div>
+    
+        </div>
+        <div id="community" class="tab-content">
+          
+      <div style="background: white; border: 1px solid #E8E6E4; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <h4 style="font-size: 1rem; font-weight: 600; color: #20212F; margin-bottom: 16px;">Aktive Nutzer</h4>
+        
+        <div class="chart-container">
+          <svg class="chart-svg" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid meet">
+            <!-- Grid lines -->
+            <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
+            
+            <!-- Trend line -->
+            <path d="M 60,70.10204081632654 L 230,69.64285714285714 L 400,67.11734693877551 L 570,64.82142857142858 L 740,60" fill="none" stroke="#FE5263" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Data points -->
+            <circle cx="60" cy="70.10204081632654" r="5" fill="#FE5263"/><circle cx="230" cy="69.64285714285714" r="5" fill="#FE5263"/><circle cx="400" cy="67.11734693877551" r="5" fill="#FE5263"/><circle cx="570" cy="64.82142857142858" r="5" fill="#FE5263"/><circle cx="740" cy="60" r="5" fill="#FE5263"/>
+            
+            <!-- Value labels on points -->
+            <text x="60" y="60.102040816326536" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">740</text><text x="230" y="59.64285714285714" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">742</text><text x="400" y="57.11734693877551" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">753</text><text x="570" y="54.821428571428584" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">763</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">784</text>
+            
+            <!-- X-axis labels -->
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="230" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="570" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 4/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 5/2026</text>
+            
+            <!-- Y-axis labels -->
+            <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">784</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">588</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">392</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">196</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0</text>
+          </svg>
+        </div>
+      
+      </div>
+      <div style="background: white; border: 1px solid #E8E6E4; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <h4 style="font-size: 1rem; font-weight: 600; color: #20212F; margin-bottom: 16px;">Gesamtzahl Nutzer</h4>
+        
+        <div class="chart-container">
+          <svg class="chart-svg" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid meet">
+            <!-- Grid lines -->
+            <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
+            
+            <!-- Trend line -->
+            <path d="M 60,240 L 230,240 L 400,66.24870466321244 L 570,63.8238341968912 L 740,60" fill="none" stroke="#073742" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Data points -->
+            <circle cx="60" cy="240" r="5" fill="#073742"/><circle cx="230" cy="240" r="5" fill="#073742"/><circle cx="400" cy="66.24870466321244" r="5" fill="#073742"/><circle cx="570" cy="63.8238341968912" r="5" fill="#073742"/><circle cx="740" cy="60" r="5" fill="#073742"/>
+            
+            <!-- Value labels on points -->
+            <text x="60" y="230" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">0</text><text x="230" y="230" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">0</text><text x="400" y="56.248704663212436" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1.9K</text><text x="570" y="53.8238341968912" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1.9K</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1.9K</text>
+            
+            <!-- X-axis labels -->
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="230" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="570" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 4/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 5/2026</text>
+            
+            <!-- Y-axis labels -->
+            <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">1.9K</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">1.4K</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">965</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">483</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0</text>
+          </svg>
+        </div>
+      
+      </div>
+      <div style="background: white; border: 1px solid #E8E6E4; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <h4 style="font-size: 1rem; font-weight: 600; color: #20212F; margin-bottom: 16px;">Veröffentlichte Kommentare</h4>
+        
+        <div class="chart-container">
+          <svg class="chart-svg" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid meet">
+            <!-- Grid lines -->
+            <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
+            
+            <!-- Trend line -->
+            <path d="M 60,86.62203286670723 L 230,81.14424832623251 L 400,71.5398660986001 L 570,66.2446743761412 L 740,60" fill="none" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Data points -->
+            <circle cx="60" cy="86.62203286670723" r="5" fill="#2e7d32"/><circle cx="230" cy="81.14424832623251" r="5" fill="#2e7d32"/><circle cx="400" cy="71.5398660986001" r="5" fill="#2e7d32"/><circle cx="570" cy="66.2446743761412" r="5" fill="#2e7d32"/><circle cx="740" cy="60" r="5" fill="#2e7d32"/>
+            
+            <!-- Value labels on points -->
+            <text x="60" y="76.62203286670723" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">4.2K</text><text x="230" y="71.14424832623251" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">4.3K</text><text x="400" y="61.5398660986001" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">4.6K</text><text x="570" y="56.244674376141205" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">4.8K</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">4.9K</text>
+            
+            <!-- X-axis labels -->
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="230" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="570" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 4/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 5/2026</text>
+            
+            <!-- Y-axis labels -->
+            <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">4.9K</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">3.7K</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">2.5K</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">1.2K</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0</text>
+          </svg>
+        </div>
+      
+      </div>
+      <div style="background: white; border: 1px solid #E8E6E4; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <h4 style="font-size: 1rem; font-weight: 600; color: #20212F; margin-bottom: 16px;">Durchschn. Kommentare/Tag</h4>
+        
+        <div class="chart-container">
+          <svg class="chart-svg" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid meet">
+            <!-- Grid lines -->
+            <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
+            
+            <!-- Trend line -->
+            <path d="M 60,169.09090909090907 L 230,164.67532467532467 L 400,137.9220779220779 L 570,136.1038961038961 L 740,60" fill="none" stroke="#8A898F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Data points -->
+            <circle cx="60" cy="169.09090909090907" r="5" fill="#8A898F"/><circle cx="230" cy="164.67532467532467" r="5" fill="#8A898F"/><circle cx="400" cy="137.9220779220779" r="5" fill="#8A898F"/><circle cx="570" cy="136.1038961038961" r="5" fill="#8A898F"/><circle cx="740" cy="60" r="5" fill="#8A898F"/>
+            
+            <!-- Value labels on points -->
+            <text x="60" y="159.09090909090907" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">27,3</text><text x="230" y="154.67532467532467" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">29,0</text><text x="400" y="127.9220779220779" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">39,3</text><text x="570" y="126.10389610389609" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">40,0</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">69,3</text>
+            
+            <!-- X-axis labels -->
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="230" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="570" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 4/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 5/2026</text>
+            
+            <!-- Y-axis labels -->
+            <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">69,3</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">52,0</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">34,7</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">17,3</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0,0</text>
+          </svg>
+        </div>
+      
+      </div>
+    
+        </div>
+        <div id="engagement" class="tab-content">
+          
+      <div style="background: white; border: 1px solid #E8E6E4; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <h4 style="font-size: 1rem; font-weight: 600; color: #20212F; margin-bottom: 16px;">Durchschn. Besuchszeit (Sek)</h4>
+        
+        <div class="chart-container">
+          <svg class="chart-svg" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid meet">
+            <!-- Grid lines -->
+            <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
+            
+            <!-- Trend line -->
+            <path d="M 60,72 L 230,117 L 400,117 L 570,99 L 740,60" fill="none" stroke="#FE5263" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Data points -->
+            <circle cx="60" cy="72" r="5" fill="#FE5263"/><circle cx="230" cy="117" r="5" fill="#FE5263"/><circle cx="400" cy="117" r="5" fill="#FE5263"/><circle cx="570" cy="99" r="5" fill="#FE5263"/><circle cx="740" cy="60" r="5" fill="#FE5263"/>
+            
+            <!-- Value labels on points -->
+            <text x="60" y="62" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">56,0</text><text x="230" y="107" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">41,0</text><text x="400" y="107" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">41,0</text><text x="570" y="89" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">47,0</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">60,0</text>
+            
+            <!-- X-axis labels -->
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="230" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="570" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 4/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 5/2026</text>
+            
+            <!-- Y-axis labels -->
+            <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">60,0</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">45,0</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">30,0</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">15,0</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0,0</text>
+          </svg>
+        </div>
+      
+      </div>
+      <div style="background: white; border: 1px solid #E8E6E4; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <h4 style="font-size: 1rem; font-weight: 600; color: #20212F; margin-bottom: 16px;">Absprungsrate (%)</h4>
+        
+        <div class="chart-container">
+          <svg class="chart-svg" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid meet">
+            <!-- Grid lines -->
+            <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
+            
+            <!-- Trend line -->
+            <path d="M 60,60 L 230,88.42105263157896 L 400,78.94736842105263 L 570,85.26315789473685 L 740,97.89473684210526" fill="none" stroke="#073742" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Data points -->
+            <circle cx="60" cy="60" r="5" fill="#073742"/><circle cx="230" cy="88.42105263157896" r="5" fill="#073742"/><circle cx="400" cy="78.94736842105263" r="5" fill="#073742"/><circle cx="570" cy="85.26315789473685" r="5" fill="#073742"/><circle cx="740" cy="97.89473684210526" r="5" fill="#073742"/>
+            
+            <!-- Value labels on points -->
+            <text x="60" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">57,0</text><text x="230" y="78.42105263157896" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">48,0</text><text x="400" y="68.94736842105263" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">51,0</text><text x="570" y="75.26315789473685" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">49,0</text><text x="740" y="87.89473684210526" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">45,0</text>
+            
+            <!-- X-axis labels -->
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="230" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="570" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 4/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 5/2026</text>
+            
+            <!-- Y-axis labels -->
+            <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">57,0</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">42,8</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">28,5</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">14,3</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0,0</text>
+          </svg>
+        </div>
+      
+      </div>
+      <div style="background: white; border: 1px solid #E8E6E4; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+        <h4 style="font-size: 1rem; font-weight: 600; color: #20212F; margin-bottom: 16px;">Aktionen pro Besuch</h4>
+        
+        <div class="chart-container">
+          <svg class="chart-svg" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid meet">
+            <!-- Grid lines -->
+            <line x1="60" y1="60" x2="740" y2="60" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="105" x2="740" y2="105" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="150" x2="740" y2="150" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="195" x2="740" y2="195" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/><line x1="60" y1="240" x2="740" y2="240" stroke="#E8E6E4" stroke-width="1" stroke-dasharray="2,2"/>
+            
+            <!-- Trend line -->
+            <path d="M 60,87 L 230,78 L 400,78 L 570,69 L 740,60" fill="none" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <!-- Data points -->
+            <circle cx="60" cy="87" r="5" fill="#2e7d32"/><circle cx="230" cy="78" r="5" fill="#2e7d32"/><circle cx="400" cy="78" r="5" fill="#2e7d32"/><circle cx="570" cy="69" r="5" fill="#2e7d32"/><circle cx="740" cy="60" r="5" fill="#2e7d32"/>
+            
+            <!-- Value labels on points -->
+            <text x="60" y="77" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1,7</text><text x="230" y="68" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1,8</text><text x="400" y="68" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1,8</text><text x="570" y="59" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">1,9</text><text x="740" y="50" text-anchor="middle" font-size="10" fill="#20212F" font-family="Inter" font-weight="600">2,0</text>
+            
+            <!-- X-axis labels -->
+            <text x="60" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 1/2025</text><text x="230" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 2/2026</text><text x="400" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 3/2026</text><text x="570" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 4/2026</text><text x="740" y="280" text-anchor="middle" font-size="11" fill="#8A898F" font-family="Inter">KW 5/2026</text>
+            
+            <!-- Y-axis labels -->
+            <text x="50" y="64" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">2,0</text><text x="50" y="109" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">1,5</text><text x="50" y="154" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">1,0</text><text x="50" y="199" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0,5</text><text x="50" y="244" text-anchor="end" font-size="10" fill="#8A898F" font-family="Inter">0,0</text>
+          </svg>
+        </div>
+      
+      </div>
+    
+        </div>
+      </div>
+      <script>
+        function showTab(event, tabName) {
+          try {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+              tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+              tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            const targetTab = document.getElementById(tabName);
+            if (targetTab) {
+              targetTab.classList.add('active');
+            } else {
+              console.error('Tab content not found:', tabName);
+            }
+            
+            // Activate clicked tab button
+            if (event.target && event.target.classList) {
+              event.target.classList.add('active');
+            }
+          } catch (error) {
+            console.error('Error in showTab:', error);
+          }
+        }
+        
+        // Initialize tabs on page load
+        document.addEventListener('DOMContentLoaded', () => {
+          try {
+            // Activate first tab by default
+            const firstTabButton = document.querySelector('.tabs .tab');
+            const firstTabContent = document.querySelector('.tab-content');
+            
+            if (firstTabButton && firstTabContent) {
+              firstTabButton.classList.add('active');
+              firstTabContent.classList.add('active');
+            }
+          } catch (error) {
+            console.error('Error initializing tabs:', error);
+          }
+        });
+      </script>
+    </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
